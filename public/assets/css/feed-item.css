@@ -1,0 +1,136 @@
+.feed-item {
+
+}
+.feed-item-head {
+    align-items: center;
+}
+.feed-item-head-photo {
+    margin-right:15px;
+}
+.feed-item-head-photo img {
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:2px solid #0b0f0d;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+.fidi-name {
+    color:#27c678;
+    font-size:16px;
+    display:inline-block;
+    margin-right:5px;
+    margin-bottom:5px;
+}
+.fidi-action,
+.fidi-date  {
+    color:#8da59a;
+    font-size:14px;
+}
+
+.feed-item-head-info {
+    flex:1;
+}
+.feed-item-head-btn {
+    margin-right:5px;
+    cursor: pointer;
+}
+.feed-item-head-btn img {
+    width:20px;
+    height:20px;
+    opacity:0.75;
+}
+.feed-item-head-btn img:hover {
+    opacity:1;
+}
+
+.feed-item-body {
+    color:#d7e7df;
+    line-height: 22px;
+    font-size:14px;
+}
+.feed-item-body img {
+    max-width:100%;
+}
+
+.feed-item-buttons {
+    border-top:1px solid #1f2a25;
+    padding:10px 0;
+}
+
+.like-btn,
+.msg-btn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    height:25px;
+    background-size: 25px;
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left:35px;
+    margin-right:20px;
+    font-size:15px;
+    transition: transform .15s ease, opacity .15s ease;
+}
+.like-btn,
+.msg-btn {
+    background-color:#121a16;
+    border-radius:20px;
+    padding-right:12px;
+}
+.like-btn {
+    background-image: url('../images/heart-off.png');
+    color:#8da59a;
+}
+.like-btn.on {
+    background-image: url('../images/heart-on.png');
+    color:#FB5252;
+}
+
+.msg-btn {
+    background-image: url('../images/comment.png');
+    color:#8da59a;
+}
+.like-btn:hover,
+.msg-btn:hover {
+    transform: translateY(-1px);
+    opacity:0.9;
+}
+
+.feed-item-comments {
+    border-top:1px solid #1f2a25;
+}
+
+.fic-item-photo {
+    margin-right: 10px;
+}
+.fic-item-photo img {
+    width:35px;
+    height:35px;
+    border-radius:50%;
+}
+.fic-item-info a {
+    display:block;
+    margin-bottom:5px;
+    color:#27c678;
+    font-size:14px;
+    text-decoration: none;
+}
+.fic-item-info {
+    color:#d7e7df;
+    font-size:13px;
+}
+.fic-item-field {
+    flex:1;
+    height:35px;
+    border-radius:20px;
+    border:1px solid #1f2a25;
+    outline:0;
+    background-color:#121a16;
+    font-size:13px;
+    padding:0 15px;
+}
+.fic-item-field:focus {
+    border-color:#1f3a2f;
+    background-color:#0f1512;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
