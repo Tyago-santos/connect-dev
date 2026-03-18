@@ -11,7 +11,7 @@ export default class AuthUserService {
     this.repository = new UserRepository();
   }
 
-  public validadePassword = async (password: string, email: string) => {
+  public loginService = async (password: string, email: string) => {
     const user = await this.repository.getUserByEmail(email);
     if (!user) return false;
     const hashCompare = (await this.bycrypt.comparePassword(password, user.password)) ?? false;
@@ -21,5 +21,17 @@ export default class AuthUserService {
     } else {
       return false;
     }
+  };
+
+  public createUser = async (password: string, email: string, name: string) => {
+    const user = await this.repository.getUserByEmail(email);
+
+    const hashCompare = await this.bycrypt.hashPassword(password);
+
+    if (!user) {
+      return this.repository.createUser(email, hashCompare, name);
+    }
+
+    return false;
   };
 }
