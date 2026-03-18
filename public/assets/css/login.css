@@ -55,6 +55,14 @@ header a {
   display: flex;
 }
 
+.message {
+  text-align: center;
+  font-size: 20px;
+  display: block;
+
+  margin-top: 20px;
+}
+
 form {
   max-width: 420px;
   margin: auto;
