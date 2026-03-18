@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 
-export const connection = async () => {
+export const connection = () => {
   try {
     return mysql.createPool({
       host: '127.0.0.1',
