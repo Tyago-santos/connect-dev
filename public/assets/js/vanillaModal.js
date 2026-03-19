@@ -344,9 +344,9 @@ var VanillaModal = (function () {
        * @param {Event} e
        */
       value: function DelegateOpen(e) {
-        e.preventDefault();
         var matches = this._matches(e, this.$$.open);
         if (matches) {
+          e.preventDefault();
           return this.open(matches);
         }
       },
@@ -360,8 +360,8 @@ var VanillaModal = (function () {
        * @param {Event} e
        */
       value: function DelegateClose(e) {
-        e.preventDefault();
         if (this._matches(e, this.$$.close)) {
+          e.preventDefault();
           return this.close();
         }
       },
