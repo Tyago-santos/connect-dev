@@ -1,6 +1,6 @@
 # Connect Dev
 
-![ConnectDev](public/assets/images/connect_dev.svg)
+![ConnectDev](public/assets/images/conectdev_logo.svg)
 
 Rede social simples para estudos, com autenticação, páginas de perfil e feed, usando Node.js + Express + Mustache.
 
