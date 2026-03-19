@@ -1,73 +1,6 @@
 {{> header}}
     <section class="container main">
-        <aside class="mt-10">
-            <nav>
-                <a href="">
-                    <div class="menu-item active">
-                        <div class="menu-item-icon">
-                            <img src="assets/images/home-run.png" width="16" height="16" />
-                        </div>
-                        <div class="menu-item-text">
-                            Home
-                        </div>
-                    </div>
-                </a>
-                <a href="">
-                    <div class="menu-item">
-                        <div class="menu-item-icon">
-                            <img src="assets/images/user.png" width="16" height="16" />
-                        </div>
-                        <div class="menu-item-text">
-                            Meu Perfil
-                        </div>
-                    </div>
-                </a>
-                <a href="">
-                    <div class="menu-item">
-                        <div class="menu-item-icon">
-                            <img src="assets/images/friends.png" width="16" height="16" />
-                        </div>
-                        <div class="menu-item-text">
-                            Amigos
-                        </div>
-                        <div class="menu-item-badge">
-                            33
-                        </div>
-                    </div>
-                </a>
-                <a href="">
-                    <div class="menu-item">
-                        <div class="menu-item-icon">
-                            <img src="assets/images/photo.png" width="16" height="16" />
-                        </div>
-                        <div class="menu-item-text">
-                            Fotos
-                        </div>
-                    </div>
-                </a>
-                <div class="menu-splitter"></div>
-                <a href="">
-                    <div class="menu-item">
-                        <div class="menu-item-icon">
-                            <img src="assets/images/settings.png" width="16" height="16" />
-                        </div>
-                        <div class="menu-item-text">
-                            Configurações
-                        </div>
-                    </div>
-                </a>
-                <a href="">
-                    <div class="menu-item">
-                        <div class="menu-item-icon">
-                            <img src="assets/images/power.png" width="16" height="16" />
-                        </div>
-                        <div class="menu-item-text">
-                            Sair
-                        </div>
-                    </div>
-                </a>
-            </nav>
-        </aside>
+    {{>asidebar}}
         <section class="feed mt-10">
             
             <div class="row">
@@ -149,26 +82,7 @@
                     
 
                 </div>
-                <div class="column side pl-5">
-                    <div class="box banners">
-                        <div class="box-header">
-                            <div class="box-header-text">Patrocinios</div>
-                            <div class="box-header-buttons">
-                                
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <a href=""><img src="https://alunos.b7web.com.br/media/courses/php-nivel-1.jpg" /></a>
-                            <a href=""><img src="https://alunos.b7web.com.br/media/courses/laravel-nivel-1.jpg" /></a>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="box-body m-10">
-                            Criado com ❤️ por B7Web
-                        </div>
-                    </div>
-                </div>
-            </div>
+          {{>ads}}
 
         </section>
     </section>
@@ -182,7 +96,3 @@
     <script type="text/javascript" src="assets/js/vanillaModal.js"></script>
 
     {{> footer}}
-
-
-</body>
-</html>
