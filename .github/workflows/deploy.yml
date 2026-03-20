@@ -1,4 +1,4 @@
-name: Deploy Multi-Env
+name: CI + Deploy Multi-Env
 
 on:
   push:
@@ -7,17 +7,52 @@ on:
       - test
 
 jobs:
-  deploy:
+  build-test-deploy:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout código
         uses: actions/checkout@v3
 
+      - name: Usar Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: Instalar dependências
         run: npm install
 
+      - name: Aguardar MySQL iniciar
+        run: |
+          for i in {1..10}; do
+            nc -z localhost 3306 && echo "MySQL pronto!" && exit 0
+            echo "Esperando MySQL..."
+            sleep 3
+          done
+          exit 1
+
+      - name: Rodar migrations (se tiver)
+        env:
+          DATABASE_URL: mysql://root:root@localhost:3306/testdb
+        run: npm run migrate || echo "Sem migrations"
+
       - name: Rodar testes
+        env:
+          DATABASE_URL: mysql://root:root@localhost:3306/testdb
         run: npm test
 
       - name: Deploy PRODUÇÃO
