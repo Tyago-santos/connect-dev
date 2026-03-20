@@ -1,4 +1,4 @@
-import { type Request, type Response, Router } from 'express';
+import { Router } from 'express';
 import { AuthUserController } from '../controller/authUserController.js';
 
 const router = Router();
