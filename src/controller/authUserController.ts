@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import AuthUserService from '../service/authUserService.js';
-import { fa } from 'zod/locales';
+
 import { schemaLogin, schemaRegister } from '../schema/schemaAuth.js';
 
 export class AuthUserController {
@@ -48,8 +48,6 @@ export class AuthUserController {
   public registerAction = async (req: Request, res: Response) => {
     const { password, email, name } = req.body;
 
-    const user = await this.authUserService.createUser(password, email, name);
-
     const { error, success } = schemaRegister(password, email, name);
     const message =
       error?.issues.map((issue) => issue.message).join(', ') || 'Email ou senha inválidos';
@@ -59,18 +57,23 @@ export class AuthUserController {
       return res.redirect('/register');
     }
 
-    console.log(user);
+    try {
+      const user = await this.authUserService.createUser(password, email, name);
 
-    if (user) {
-      req.session.user = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      };
+      if (user) {
+        req.session.user = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        };
 
-      return res.redirect('/');
-    } else {
-      req.flash('error', 'Email ja existe');
+        return res.redirect('/');
+      } else {
+        req.flash('error', 'Email ja existe');
+      }
+    } catch (err) {
+      console.error('Erro ao registrar usuario:', err);
+      req.flash('error', 'Erro interno ao criar usuario');
     }
 
     return res.redirect('/register');
