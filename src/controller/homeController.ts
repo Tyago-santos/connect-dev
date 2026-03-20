@@ -18,4 +18,9 @@ export default class HomeController {
       },
     });
   };
+
+
+  public newPost = (req: Request, res: Response)=>{
+
+  }
 }
