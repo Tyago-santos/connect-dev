@@ -7,7 +7,8 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import MySQLStoreFactory from 'express-mysql-session';
 import mysql from 'mysql2';
-import { dbConfig } from './database/connection.js';
+import connectPgSimple from 'connect-pg-simple';
+import { dbConfig, dbDialect, getPgPool } from './database/connection.js';
 
 export const app = express();
 
@@ -15,12 +16,19 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 
 const MySQLStore = MySQLStoreFactory(session);
-const sessionStore = new MySQLStore(
-  {
-    createDatabaseTable: true,
-  },
-  mysql.createPool(dbConfig),
-);
+const PgSession = connectPgSimple(session);
+const sessionStore =
+  dbDialect === 'postgres'
+    ? new PgSession({
+        pool: getPgPool(),
+        createTableIfMissing: true,
+      })
+    : new MySQLStore(
+        {
+          createDatabaseTable: true,
+        },
+        mysql.createPool(dbConfig),
+      );
 
 app.use(
   session({

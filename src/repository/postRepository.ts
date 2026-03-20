@@ -1,26 +1,8 @@
-import type { RowDataPacket } from 'mysql2';
-import { connection } from '../database/connection.js';
-import type { Pool, ResultSetHeader } from 'mysql2/promise';
-
-export namespace Database {
-  export interface UserRow extends RowDataPacket {
-    id: number;
-    name: string;
-    password: string;
-    email: string;
-  }
-
-  export type Connection = Pool;
-}
+import { db } from '../database/connection.js';
 export class PostRepository {
-  private conn: Database.Connection;
-
-  constructor() {
-    this.conn = connection();
-  }
   public async getAllPost() {
     try {
-      const [rows] = await this.conn.execute('SELECT * FROM  users');
+      const rows = await db.query<PostRow>('SELECT * FROM users');
       return rows;
     } catch (err) {
       console.error(`erro ao pegar usúarios ${err}`);
@@ -29,10 +11,8 @@ export class PostRepository {
 
   public async createPost(body: string, userId: string, type: string, createAt: string) {
     try {
-      const [result] = await (
-        await this.conn
-      ).execute<ResultSetHeader>(
-        'INSERT INTO posts (body, id_user,type, created_at) VALUES (?, ?, ?,?)',
+      const result = await db.insert(
+        'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) RETURNING id',
         [body, userId, type, createAt],
       );
 
@@ -48,4 +28,12 @@ export class PostRepository {
       throw err;
     }
   }
+}
+
+interface PostRow {
+  id: number;
+  body: string;
+  id_user: string;
+  type: string;
+  created_at: string;
 }

@@ -1,35 +1,9 @@
-import type { RowDataPacket } from 'mysql2';
-import { connection } from '../database/connection.js';
-import type { Pool, ResultSetHeader } from 'mysql2/promise';
+import { db } from '../database/connection.js';
 
-interface UserRow extends RowDataPacket {
-  id: number;
-  name: string;
-  password: string;
-  email: string;
-}
-
-export namespace Database {
-  // Interface para a tabela de usuários
-  export interface UserRow extends RowDataPacket {
-    id: number;
-    name: string;
-    password: string;
-    email: string;
-  }
-
-  // Tipo para o Pool (caso queira centralizar)
-  export type Connection = Pool;
-}
 export class UserRepository {
-  private conn: Database.Connection;
-
-  constructor() {
-    this.conn = connection();
-  }
   public async getAllUsers() {
     try {
-      const [rows] = await this.conn.execute('SELECT * FROM  users');
+      const rows = await db.query<UserRow>('SELECT * FROM users');
       return rows;
     } catch (err) {
       console.error(`erro ao pegar usúarios ${err}`);
@@ -38,7 +12,7 @@ export class UserRepository {
 
   public async getUserByEmail(email: string) {
     try {
-      const [rows] = await this.conn.execute<Database.UserRow[]>(
+      const rows = await db.query<UserRow>(
         'SELECT * FROM users WHERE email = ?',
         [email],
       );
@@ -51,15 +25,11 @@ export class UserRepository {
 
   public async createUser(email: string, password: string, name: string) {
     try {
-      // 1. O retorno de um INSERT é ResultSetHeader, não um array de linhas
-      const [result] = await (
-        await this.conn
-      ).execute<ResultSetHeader>(
-        'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-        [name, email, password], // Removi o birthdate para bater com os argumentos da função
+      const result = await db.insert(
+        'INSERT INTO users (name, email, password) VALUES (?, ?, ?) RETURNING id',
+        [name, email, password],
       );
 
-      // 2. O result tem o 'insertId'. O MySQL NÃO retorna os dados inseridos no INSERT.
       return {
         id: result.insertId,
         name: name,
@@ -67,7 +37,14 @@ export class UserRepository {
       };
     } catch (err) {
       console.error(`erro ao criar usuário ${err}`);
-      throw err; // Importante para o AuthService saber que falhou
+      throw err;
     }
   }
+}
+
+interface UserRow {
+  id: number;
+  name: string;
+  password: string;
+  email: string;
 }

@@ -30,14 +30,13 @@ npm install
 PORT=3000
 ```
 
-3. Configure o banco MySQL:
+3. Configure o banco via `.env` (use `.env.example` como base):
 
-- Host: `127.0.0.1`
-- Usuário: `root`
-- Senha: `1234`
-- Banco: `connect_dev`
+- `DB_DIALECT=mysql` (local) ou `postgres` (produção)
+- `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`, `DB_PORT` (MySQL local)
+- `DATABASE_URL` + `PGSSL=true` (Postgres na Render)
 
-Os dados de conexão estão em `src/database/connection.ts`.
+Os dados de conexão estão em `src/database/connection.ts` e mudam por ambiente.
 
 4. Rodar em modo dev:
 
@@ -64,7 +63,7 @@ npm start
 - `src/controller` controla as requisições e renderiza views.
 - `src/service` concentra regras de negócio e integrações.
 - `src/repository` acessa o banco de dados.
-- `src/database` configuração do pool MySQL.
+- `src/database` configuração do pool MySQL/Postgres.
 - `src/schema` validação com Zod.
 - `src/utils` utilitários (ex.: página ativa).
 - `src/views` templates Mustache.
