@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { UserRepository } from '../repository/userRepository.ts';
+import { UserRepository } from '../repository/userRepository.js';
 import type { email } from 'zod';
-import { activePage } from '../utils/activePage.ts';
+import { activePage } from '../utils/activePage.js';
 
 export default class HomeController {
   private repository = new UserRepository();

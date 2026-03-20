@@ -1,5 +1,5 @@
 import { type Request, type Response, Router } from 'express';
-import { PerfilController } from '../controller/perfilController.ts';
+import { PerfilController } from '../controller/perfilController.js';
 
 const perfilController = new PerfilController();
 

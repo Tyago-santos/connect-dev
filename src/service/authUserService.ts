@@ -1,7 +1,7 @@
 import { fa, tr } from 'zod/locales';
-import { UserRepository } from '../repository/userRepository.ts';
-import { schemaLogin } from '../schema/schemaAuth.ts';
-import { Hash } from '../utils/hash.ts';
+import { UserRepository } from '../repository/userRepository.js';
+import { schemaLogin } from '../schema/schemaAuth.js';
+import { Hash } from '../utils/hash.js';
 
 export default class AuthUserService {
   private bycrypt: Hash;

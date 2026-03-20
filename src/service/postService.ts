@@ -1,4 +1,4 @@
-import { PostRepository } from '../repository/postRepository.ts';
+import { PostRepository } from '../repository/postRepository.js';
 
 export class PostService {
   private repository: PostRepository;
