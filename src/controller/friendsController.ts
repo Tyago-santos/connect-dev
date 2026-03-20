@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { activePage } from '../utils/activePage.ts';
+import { activePage } from '../utils/activePage.js';
 
 export class FriendsController {
   public friends = (req: Request, res: Response) => {

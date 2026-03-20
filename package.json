@@ -3,7 +3,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/app.js",
-    "dev": " node --env-file=.env --watch ./src/app.ts "
+    "dev": "node --env-file=.env --watch ./src/app.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

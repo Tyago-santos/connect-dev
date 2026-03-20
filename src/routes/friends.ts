@@ -1,5 +1,5 @@
 import { type Request, type Response, Router } from 'express';
-import { FriendsController } from '../controller/friendsController.ts';
+import { FriendsController } from '../controller/friendsController.js';
 
 const friendsController = new FriendsController();
 

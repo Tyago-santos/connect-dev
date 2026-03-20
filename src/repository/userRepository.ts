@@ -1,5 +1,5 @@
 import type { RowDataPacket } from 'mysql2';
-import { connection } from '../database/connection.ts';
+import { connection } from '../database/connection.js';
 import type { Pool, ResultSetHeader } from 'mysql2/promise';
 
 interface UserRow extends RowDataPacket {

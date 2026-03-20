@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import AuthUserService from '../service/authUserService.ts';
+import AuthUserService from '../service/authUserService.js';
 import { fa } from 'zod/locales';
-import { schemaLogin, schemaRegister } from '../schema/schemaAuth.ts';
+import { schemaLogin, schemaRegister } from '../schema/schemaAuth.js';
 
 export class AuthUserController {
   private authUserService: AuthUserService;
