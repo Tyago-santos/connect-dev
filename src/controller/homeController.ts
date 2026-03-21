@@ -1,16 +1,25 @@
 import type { Request, Response } from 'express';
-import { UserRepository } from '../repository/userRepository.js';
-import type { email } from 'zod';
 import { activePage } from '../utils/activePage.js';
+import { PostService } from '../service/postService.js';
 
 export default class HomeController {
-  private repository = new UserRepository();
+  private service: PostService;
 
-  public index = (req: Request, res: Response) => {
+  constructor() {
+    this.service = new PostService();
+  }
+
+  public index = async (req: Request, res: Response) => {
+    const id = req.session.user?.id;
+
+    const posts = await this.service.postsAll(Number(id));
+
+    console.log(posts);
     const active = activePage('home');
     res.render('pages/home', {
       title: 'Home',
       active,
+      posts,
       user: {
         name: req.session.user?.name,
         email: req.session.user?.email,
@@ -18,9 +27,4 @@ export default class HomeController {
       },
     });
   };
-
-
-  public newPost = (req: Request, res: Response)=>{
-
-  }
 }

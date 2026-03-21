@@ -1,18 +1,53 @@
 import { db } from '../database/connection.js';
+
+type ParamsType = {
+  user_to: number;
+};
+
 export class PostRepository {
-  public async getAllPost() {
+  public async postRelatiosns(id: number) {
     try {
-      const rows = await db.query<PostRow>('SELECT * FROM users');
+      const rows = await db.query<ParamsType>(
+        'SELECT user_to FROM user_relations WHERE user_from =?',
+        [id],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao pegar posts relacinados ${err}`);
+    }
+  }
+
+  public async getAllPost(postsUser: ParamsType[], id: number) {
+    try {
+      const userIds = postsUser.map((item) => item.user_to);
+      const allIds = [id, ...userIds];
+      const placeholders = allIds.map(() => '?').join(',');
+
+      const rows = await db.query<PostRow>(
+        `SELECT * FROM posts WHERE id_user IN (${placeholders}) ORDER BY created_at DESC`,
+        allIds,
+      );
       return rows;
     } catch (err) {
       console.error(`erro ao pegar usúarios ${err}`);
     }
   }
 
-  public async createPost(body: string, userId: string, type: string, createAt: string) {
+  public async createPost(
+    body: string,
+    userId: string,
+    type: string,
+    createAt: string,
+  ) {
+    //  const result = await db.insert(
+    //     'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) RETURNING id',
+    //     [body, userId, type, createAt],
+    //   );
+
+    // postgress
     try {
       const result = await db.insert(
-        'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) RETURNING id',
+        'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) ',
         [body, userId, type, createAt],
       );
 
@@ -30,7 +65,7 @@ export class PostRepository {
   }
 }
 
-interface PostRow {
+export interface PostRow {
   id: number;
   body: string;
   id_user: string;
