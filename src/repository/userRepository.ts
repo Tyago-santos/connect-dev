@@ -12,10 +12,7 @@ export class UserRepository {
 
   public async getUserByEmail(email: string) {
     try {
-      const rows = await db.query<UserRow>(
-        'SELECT * FROM users WHERE email = ?',
-        [email],
-      );
+      const rows = await db.query<UserRow>('SELECT * FROM users WHERE email = ?', [email]);
 
       return rows[0];
     } catch (err) {
@@ -26,7 +23,7 @@ export class UserRepository {
   public async createUser(email: string, password: string, name: string) {
     try {
       const result = await db.insert(
-        'INSERT INTO users (name, email, password) VALUES (?, ?, ?) RETURNING id',
+        'INSERT INTO users (name, email, password) VALUES (?, ?, ?) ',
         [name, email, password],
       );
 
