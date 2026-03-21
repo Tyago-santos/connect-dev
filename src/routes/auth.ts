@@ -9,5 +9,6 @@ router.get('/login', authUserController.login);
 router.post('/login_action', authUserController.loginAction);
 router.get('/register', authUserController.register);
 router.post('/register_action', authUserController.registerAction);
+router.get('/logout', authUserController.logout);
 
 export default router;

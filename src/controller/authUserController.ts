@@ -25,7 +25,8 @@ export class AuthUserController {
     const user = await this.authUserService.loginService(password, email);
     const { error, success } = schemaLogin(password, email);
     const message =
-      error?.issues.map((issue) => issue.message).join(', ') || 'Email ou senha inválidos';
+      error?.issues.map((issue) => issue.message).join(', ') ||
+      'Email ou senha inválidos';
 
     if (!success) {
       req.flash('error', message);
@@ -50,7 +51,8 @@ export class AuthUserController {
 
     const { error, success } = schemaRegister(password, email, name);
     const message =
-      error?.issues.map((issue) => issue.message).join(', ') || 'Email ou senha inválidos';
+      error?.issues.map((issue) => issue.message).join(', ') ||
+      'Email ou senha inválidos';
 
     if (!success) {
       req.flash('error', message);
@@ -77,5 +79,17 @@ export class AuthUserController {
     }
 
     return res.redirect('/register');
+  };
+
+  public logout = (req: Request, res: Response) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('sessão nãp foi apagada', err);
+        res.redirect('/');
+      }
+
+      res.clearCookie('connect.sid');
+      res.redirect('/login');
+    });
   };
 }
