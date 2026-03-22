@@ -7,6 +7,11 @@ export class PhotoController {
 
     return res.render('pages/photo', {
       active,
+      user: {
+        name: req.session.user?.name,
+        email: req.session.user?.email,
+        id: req.session.user?.id,
+      },
     });
   };
 }
