@@ -17,7 +17,6 @@ export default class HomeController {
     console.log(posts);
     const active = activePage('home');
     res.render('pages/home', {
-      title: 'Home',
       active,
       posts,
       user: {
