@@ -4,10 +4,6 @@ type RelationsTo = {
   user_to: number;
 };
 
-type RelationsFrom = {
-  user_from: number;
-};
-
 export class PostRepository {
   public async postFromRelatios(id: number) {
     try {
@@ -18,18 +14,6 @@ export class PostRepository {
       return rows;
     } catch (err) {
       console.error(`erro ao pegar posts relacinados to ${err}`);
-    }
-  }
-
-  public async postToRelations(id: number) {
-    try {
-      const rows = await db.query<RelationsFrom>(
-        'SELECT user_from FROM user_relations WHERE user_to =?',
-        [id],
-      );
-      return rows;
-    } catch (err) {
-      console.error(`erro ao pegar posts relacinados from ${err}`);
     }
   }
 

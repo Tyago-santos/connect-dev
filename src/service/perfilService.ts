@@ -1,5 +1,5 @@
 import { PerfilRepository } from '../repository/perfilRepository.js';
-import { PostRepository } from '../repository/postRepository.js';
+import { RelationsRepository } from '../repository/relationsRepository.js';
 
 interface UserRow {
   id: number;
@@ -23,19 +23,19 @@ type UsersRelationsType = {
 
 export class PerfilService {
   private repositoryPerfil: PerfilRepository;
-  private repositoryRelations: PostRepository;
+  private repositoryRelations: RelationsRepository;
 
   constructor() {
     this.repositoryPerfil = new PerfilRepository();
-    this.repositoryRelations = new PostRepository();
+    this.repositoryRelations = new RelationsRepository();
   }
 
   public getPerfil = async (
     id: number,
   ): Promise<UsersRelationsType | undefined> => {
     const user = await this.repositoryPerfil.getPerfil(id);
-    const relationsTo = await this.repositoryRelations.postToRelations(id);
-    const relationsFrom = await this.repositoryRelations.postFromRelatios(id);
+    const relationsTo = await this.repositoryRelations.RelationsTo(id);
+    const relationsFrom = await this.repositoryRelations.relatiosFrom(id);
     if (user && relationsTo && relationsFrom)
       return {
         user,
