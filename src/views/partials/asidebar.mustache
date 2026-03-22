@@ -3,17 +3,17 @@
           <a href="/">
             <div class="menu-item{{#active.home}} active{{/active.home}}">
               <div class="menu-item-icon">
-                <img src="/assets/images/home-run.png" width="16" height="16" />
+                <i class="fas fa-home fa-fw" aria-hidden="true"></i>
               </div>
               <div class="menu-item-text">Home</div>
             </div>
           </a>
 
 
-          <a href="/perfil">
+          <a href="/perfil/{{user.id}}">
             <div class="menu-item{{#active.perfil}} active{{/active.perfil}}">
               <div class="menu-item-icon">
-                <img src="/assets/images/user.png" width="16" height="16" />
+                <i class="fas fa-user fa-fw" aria-hidden="true"></i>
               </div>
               <div class="menu-item-text">Meu Perfil</div>
             </div>
@@ -21,7 +21,7 @@
           <a href="/friends">
            <div class="menu-item{{#active.friends}} active{{/active.friends}}">
               <div class="menu-item-icon">
-                <img src="/assets/images/friends.png" width="16" height="16" />
+                <i class="fas fa-user-friends fa-fw" aria-hidden="true"></i>
               </div>
               <div class="menu-item-text">Amigos</div>
               <div class="menu-item-badge">33</div>
@@ -30,7 +30,7 @@
           <a href="/photos">
              <div class="menu-item{{#active.photo}} active{{/active.photo}}">
               <div class="menu-item-icon">
-                <img src="/assets/images/photo.png" width="16" height="16" />
+                <i class="fas fa-image fa-fw" aria-hidden="true"></i>
               </div>
               <div class="menu-item-text">Fotos</div>
             </div>
@@ -39,7 +39,7 @@
           <a href="/config">
            <div class="menu-item{{#active.config}} active{{/active.config}}">
               <div class="menu-item-icon">
-                <img src="/assets/images/settings.png" width="16" height="16" />
+                <i class="fas fa-cog fa-fw" aria-hidden="true"></i>
               </div>
               <div class="menu-item-text">Configurações</div>
             </div>
@@ -47,7 +47,7 @@
           <a href="/logout">
               <div class="menu-item{{#active.logout}} active{{/active.logout}}">
               <div class="menu-item-icon">
-                <img src="/assets/images/power.png" width="16" height="16" />
+                <i class="fas fa-sign-out-alt fa-fw" aria-hidden="true"></i>
               </div>
               <div class="menu-item-text">Sair</div>
             </div>
