@@ -26,12 +26,12 @@ export class PerfilController {
 
       return res.render('pages/perfil', {
         active,
-        userInfor,
-        user: {
-          name: req.session.user?.name,
-          email: req.session.user?.email,
-          id: req.session.user?.id,
-        },
+        user: userInfor,
+        // user: {
+        //   name: req.session.user?.name,
+        //   email: req.session.user?.email,
+        //   id: req.session.user?.id,
+        // },
       });
     }
   };

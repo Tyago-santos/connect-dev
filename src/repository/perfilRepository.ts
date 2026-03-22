@@ -3,10 +3,9 @@ import { db } from '../database/connection.js';
 export class PerfilRepository {
   public async getPerfil(id: number) {
     try {
-      const rows = await db.query<UserRow>(
-        'SELECT * FROM users WHERE id_user = ?',
-        [id],
-      );
+      const rows = await db.query<UserRow>('SELECT * FROM users WHERE id = ?', [
+        id,
+      ]);
       return rows[0];
     } catch (err) {
       console.error(`erro ao pegar perfil de usúario ${err}`);
