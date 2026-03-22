@@ -10,7 +10,7 @@ export class PostService {
   public postsAll = async (
     id: number,
   ): Promise<PostRow[] | false | undefined> => {
-    const postsRelations = await this.repository.postRelatiosns(id);
+    const postsRelations = await this.repository.postFromRelatios(id);
     if (postsRelations) {
       const posts = await this.repository.getAllPost(postsRelations, id);
       const formattedPosts = posts?.map((post) => {

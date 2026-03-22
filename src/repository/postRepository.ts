@@ -1,23 +1,39 @@
 import { db } from '../database/connection.js';
 
-type ParamsType = {
+type RelationsTo = {
   user_to: number;
 };
 
+type RelationsFrom = {
+  user_from: number;
+};
+
 export class PostRepository {
-  public async postRelatiosns(id: number) {
+  public async postFromRelatios(id: number) {
     try {
-      const rows = await db.query<ParamsType>(
+      const rows = await db.query<RelationsTo>(
         'SELECT user_to FROM user_relations WHERE user_from =?',
         [id],
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar posts relacinados ${err}`);
+      console.error(`erro ao pegar posts relacinados to ${err}`);
     }
   }
 
-  public async getAllPost(postsUser: ParamsType[], id: number) {
+  public async postToRelations(id: number) {
+    try {
+      const rows = await db.query<RelationsFrom>(
+        'SELECT user_from FROM user_relations WHERE user_to =?',
+        [id],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao pegar posts relacinados from ${err}`);
+    }
+  }
+
+  public async getAllPost(postsUser: RelationsTo[], id: number) {
     try {
       const userIds = postsUser.map((item) => item.user_to);
       const allIds = [id, ...userIds];

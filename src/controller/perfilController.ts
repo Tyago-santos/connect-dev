@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { activePage } from '../utils/activePage.js';
 import { PerfilService } from '../service/perfilService.js';
+import { PostService } from '../service/postService.js';
 
 // interface UserInforType {
 // id: number;
@@ -10,28 +11,26 @@ import { PerfilService } from '../service/perfilService.js';
 // }
 
 export class PerfilController {
-  private service: PerfilService;
-
+  private servicePerfil: PerfilService;
+  private servicePost: PostService;
   constructor() {
-    this.service = new PerfilService();
+    this.servicePerfil = new PerfilService();
+    this.servicePost = new PostService();
   }
   public perfil = async (req: Request, res: Response) => {
     const active = activePage('perfil');
     const { id } = req.params;
 
     if (id) {
-      const userInfor = await this.service.getPerfil(Number(id));
-
-      console.log(userInfor);
+      const userInfor = await this.servicePerfil.getPerfil(Number(id));
 
       return res.render('pages/perfil', {
         active,
-        user: userInfor,
-        // user: {
-        //   name: req.session.user?.name,
-        //   email: req.session.user?.email,
-        //   id: req.session.user?.id,
-        // },
+        user: userInfor?.user,
+        relations: {
+          to: userInfor?.relationsTo.length,
+          from: userInfor?.relationsFrom.length,
+        },
       });
     }
   };
