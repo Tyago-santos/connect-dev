@@ -1,5 +1,9 @@
 import { PerfilRepository } from '../repository/perfilRepository.js';
-import { RelationsRepository } from '../repository/relationsRepository.js';
+import {
+  RelationsRepository,
+  type RelationsFrom,
+  type RelationsTo,
+} from '../repository/relationsRepository.js';
 
 interface UserRow {
   id: number;
@@ -8,17 +12,10 @@ interface UserRow {
   email: string;
 }
 
-type RelationsTo = {
-  user_from: number;
-};
-
-type RelationsFrom = {
-  user_to: number;
-};
 type UsersRelationsType = {
   user: UserRow;
-  relationsTo: RelationsTo[];
-  relationsFrom: RelationsFrom[];
+  relationsTo: RelationsFrom[];
+  relationsFrom: RelationsTo[];
 };
 
 export class PerfilService {
@@ -34,13 +31,31 @@ export class PerfilService {
     id: number,
   ): Promise<UsersRelationsType | undefined> => {
     const user = await this.repositoryPerfil.getPerfil(id);
-    const relationsTo = await this.repositoryRelations.RelationsTo(id);
-    const relationsFrom = await this.repositoryRelations.relatiosFrom(id);
+    const relationsTo = await this.repositoryRelations.relationsTo(id);
+    const relationsFrom = await this.repositoryRelations.relationsFrom(id);
     if (user && relationsTo && relationsFrom)
       return {
         user,
         relationsTo,
         relationsFrom,
       };
+  };
+
+  public getRelationsFrom = async (
+    id: number,
+  ): Promise<
+    | {
+        users: UserRow[][] | undefined;
+      }
+    | undefined
+  > => {
+    const followers = await this.repositoryRelations.relationsFrom(id);
+    if (followers) {
+      const usersFrom = await this.repositoryPerfil.getAllPerfilFrom(followers);
+
+      return {
+        users: usersFrom,
+      };
+    }
   };
 }

@@ -1,4 +1,5 @@
 import { db } from '../database/connection.js';
+import type { RelationsFrom, RelationsTo} from './relationsRepository.js';
 
 export class PerfilRepository {
   public async getPerfil(id: number) {
@@ -9,6 +10,34 @@ export class PerfilRepository {
       return rows[0];
     } catch (err) {
       console.error(`erro ao pegar perfil de usúario ${err}`);
+    }
+  }
+
+  public async getAllPerfilFrom(id: RelationsTo[]) {
+    const sql = id.map(() => '?').join(',');
+    const idValue = id.map((i) => i.user_to);
+    try {
+      const rows = await db.query<UserRow[]>(
+        `SELECT * FROM users WHERE id IN (${sql} )`,
+        [...idValue],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao pegar perfil de usúarios ${err}`);
+    }
+  }
+
+  public async getAllPerfilTo(id: RelationsFrom[]) {
+    const sql = id.map(() => '?').join(',');
+    const idValue = id.map((i) => i.user_from);
+    try {
+      const rows = await db.query<UserRow[]>(
+        `SELECT * FROM users WHERE id IN (${sql} )`,
+        [...idValue],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao pegar perfil de usúarios ${err}`);
     }
   }
 

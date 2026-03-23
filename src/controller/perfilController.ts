@@ -23,10 +23,12 @@ export class PerfilController {
 
     if (id) {
       const userInfor = await this.servicePerfil.getPerfil(Number(id));
+      const usersFrom = await this.servicePerfil.getRelationsFrom(Number(id));
 
       return res.render('pages/perfil', {
         active,
         user: userInfor?.user,
+        users: usersFrom?.users,
         relations: {
           to: userInfor?.relationsTo.length,
           from: userInfor?.relationsFrom.length,
