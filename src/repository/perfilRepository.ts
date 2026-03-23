@@ -1,5 +1,5 @@
 import { db } from '../database/connection.js';
-import type { RelationsFrom, RelationsTo} from './relationsRepository.js';
+import type { RelationsFrom, RelationsTo } from './relationsRepository.js';
 
 export class PerfilRepository {
   public async getPerfil(id: number) {
@@ -14,11 +14,12 @@ export class PerfilRepository {
   }
 
   public async getAllPerfilFrom(id: RelationsTo[]) {
+    if (!id.length) return [];
     const sql = id.map(() => '?').join(',');
     const idValue = id.map((i) => i.user_to);
     try {
-      const rows = await db.query<UserRow[]>(
-        `SELECT * FROM users WHERE id IN (${sql} )`,
+      const rows = await db.query<UserRow>(
+        `SELECT name FROM users WHERE id IN (${sql} )`,
         [...idValue],
       );
       return rows;
@@ -28,11 +29,12 @@ export class PerfilRepository {
   }
 
   public async getAllPerfilTo(id: RelationsFrom[]) {
+    if (!id.length) return [];
     const sql = id.map(() => '?').join(',');
     const idValue = id.map((i) => i.user_from);
     try {
-      const rows = await db.query<UserRow[]>(
-        `SELECT * FROM users WHERE id IN (${sql} )`,
+      const rows = await db.query<UserRow>(
+        `SELECT name FROM users WHERE id IN (${sql} )`,
         [...idValue],
       );
       return rows;

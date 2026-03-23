@@ -45,7 +45,7 @@ export class PerfilService {
     id: number,
   ): Promise<
     | {
-        users: UserRow[][] | undefined;
+        users: UserRow[] | undefined;
       }
     | undefined
   > => {
@@ -55,6 +55,24 @@ export class PerfilService {
 
       return {
         users: usersFrom,
+      };
+    }
+  };
+
+  public getRelationsTo = async (
+    id: number,
+  ): Promise<
+    | {
+        users: UserRow[] | undefined;
+      }
+    | undefined
+  > => {
+    const followers = await this.repositoryRelations.relationsTo(id);
+    if (followers) {
+      const usersTo = await this.repositoryPerfil.getAllPerfilTo(followers);
+
+      return {
+        users: usersTo,
       };
     }
   };
