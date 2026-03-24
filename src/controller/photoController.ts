@@ -17,6 +17,7 @@ export class PhotoController {
 
       return res.render('pages/photo', {
         active,
+        countFriends: userInfor?.relationsFrom.length,
         relations: {
           to: userInfor?.relationsTo.length,
           from: userInfor?.relationsFrom.length,

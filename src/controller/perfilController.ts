@@ -19,14 +19,21 @@ export class PerfilController {
   }
   public perfil = async (req: Request, res: Response) => {
     const active = activePage('perfil');
-    const { id } = req.params;
+    const { id: idUser } = req.params;
+    const id = req.session.user?.id;
 
-    if (id) {
-      const userInfor = await this.servicePerfil.getPerfil(Number(id));
-      const usersFrom = await this.servicePerfil.getRelationsFrom(Number(id));
+    const userPosts = await this.servicePost.postAllUser(Number(id));
+
+    if (idUser) {
+      const userInfor = await this.servicePerfil.getPerfil(Number(idUser));
+      const usersFrom = await this.servicePerfil.getRelationsFrom(
+        Number(idUser),
+      );
 
       return res.render('pages/perfil', {
         active,
+        countFriends: userInfor?.relationsFrom.length,
+        userPosts,
         user: userInfor?.user,
         users: usersFrom?.users,
         relations: {

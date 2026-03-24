@@ -28,6 +28,27 @@ export class PostService {
     }
   };
 
+  public postAllUser = async (
+    id: number,
+  ): Promise<PostRow[] | false | undefined> => {
+    const posts = await this.repository.getAllPostUser(id);
+
+    if (posts) {
+      const formattedPosts = posts?.map((post) => {
+        const date = new Date(post.created_at);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        return {
+          ...post,
+          created_at: `${day}/${month}/${year}`,
+        };
+      });
+      return formattedPosts ? formattedPosts : false;
+    }
+  };
+
   public createPost = async (body: string, id: number) => {
     try {
       const date = new Date().toISOString().slice(0, 19).replace('T', ' ');

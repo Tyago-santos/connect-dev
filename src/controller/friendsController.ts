@@ -23,6 +23,7 @@ export class FriendsController {
 
       return res.render('pages/friends', {
         active,
+        countFriends: userInfor?.relationsFrom.length,
         usersTo: perfilTo?.users,
         usersFrom: perfilFrom?.users,
         relations: {

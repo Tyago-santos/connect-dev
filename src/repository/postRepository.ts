@@ -33,6 +33,18 @@ export class PostRepository {
     }
   }
 
+  public async getAllPostUser(id: number) {
+    try {
+      const rows = await db.query<PostRow>(
+        `SELECT * FROM posts WHERE id_user = ? ORDER BY created_at DESC`,
+        [id],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao pegar post dos usuário logado ${err}`);
+    }
+  }
+
   public async createPost(
     body: string,
     userId: string,
