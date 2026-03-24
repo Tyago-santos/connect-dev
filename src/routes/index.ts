@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 import HomeController from '../controller/homeController.js';
 import authUser from './auth.js';
 import perfilRoutes from './perfil.js';
@@ -6,6 +6,7 @@ import friendsRoutes from './friends.js';
 import photoRoutes from './photo.js';
 import postRoutes from './post.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
+import configRoutes from './config.js';
 const homeController = new HomeController();
 
 const router = Router();
@@ -16,6 +17,7 @@ router.use(perfilRoutes);
 router.use(friendsRoutes);
 router.use(photoRoutes);
 router.use(postRoutes);
+router.use(configRoutes);
 
 router.get('/', homeController.index);
 

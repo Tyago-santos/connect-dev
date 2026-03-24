@@ -1,0 +1,86 @@
+{{> header}}
+    <section class="container main">
+    {{>asidebar}}
+        <section class="feed mt-10">
+            <div class="box">
+                <div class="box-header m-10">
+                    <div class="box-header-text">
+                        Configurações
+                        <span>Personalize seu perfil</span>
+                    </div>
+                </div>
+                <div class="box-body m-20">
+                    <form method="POST" class="config-form" enctype="multipart/form-data" action="/config_action">
+                        <div class="config-section">
+                            <div class="config-section-title">Fotos do perfil</div>
+                            <div class="config-grid">
+                                <label class="config-field config-file">
+                                    <span>Novo avatar</span>
+                                    <div class="config-file-card">
+                                        <div class="config-file-preview">
+                                            <div class="config-file-icon">IMG</div>
+                                        </div>
+                                        <div class="config-file-info">
+                                            <strong>Escolha uma foto</strong>
+                                            <small>Recomendado: 400x400</small>
+                                        </div>
+                                        <input type="file" name="avatar" />
+                                    </div>
+                                </label>
+                                <label class="config-field config-file">
+                                    <span>Nova capa</span>
+                                    <div class="config-file-card">
+                                        <div class="config-file-preview config-file-preview--wide">
+                                            <div class="config-file-icon">IMG</div>
+                                        </div>
+                                        <div class="config-file-info">
+                                            <strong>Escolha uma capa</strong>
+                                            <small>Recomendado: 1280x420</small>
+                                        </div>
+                                        <input type="file" name="cover" />
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="config-section">
+                            <div class="config-section-title">Dados pessoais</div>
+                            <div class="config-grid">
+                                <label class="config-field">
+                                    <span>Nome completo</span>
+                                    <input name="name" type="text" class="config-input" />
+                                </label>
+                                <label class="config-field">
+                                    <span>E-mail</span>
+                                    <input name="email" type="email" class="config-input" />
+                                </label>
+                               
+                                <label class="config-field">
+                                    <span>Trabalho</span>
+                                    <input name="work" type="text" class="config-input" />
+                                </label>
+                                <label class="config-field">
+                                    <span>Cidade</span>
+                                    <input name="city" type="text" class="config-input" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="config-actions">
+                            <button class="config-save" type="submit">Salvar alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+    <div class="modal">
+        <div class="modal-inner">
+            <a rel="modal:close">&times;</a>
+            <div class="modal-content"></div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+    <script type="text/javascript" src="/assets/js/vanillaModal.js"></script>
+
+    {{> footer}}

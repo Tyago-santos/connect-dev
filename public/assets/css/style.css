@@ -520,6 +520,166 @@ header .head-side {
   transform: translateY(-2px);
 }
 
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.config-section {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(18, 27, 22, 0.8),
+    rgba(12, 18, 15, 0.9)
+  );
+  box-shadow: var(--shadow-soft);
+}
+.config-section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+.config-field span {
+  color: var(--ink);
+  font-weight: 600;
+}
+.config-field small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.config-input,
+.config-file input[type='file'] {
+  background: rgba(10, 15, 12, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: var(--ink);
+  outline: 0;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+.config-input:focus,
+.config-file input[type='file']:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(39, 198, 120, 0.18);
+}
+.config-file {
+  border: 1px dashed rgba(98, 242, 168, 0.35);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(15, 21, 18, 0.6);
+}
+.config-file-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(13, 19, 16, 0.9),
+    rgba(20, 31, 26, 0.9)
+  );
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+.config-file-card:hover {
+  border-color: rgba(98, 242, 168, 0.55);
+  box-shadow: 0 10px 22px rgba(10, 16, 13, 0.35);
+  transform: translateY(-1px);
+}
+.config-file-card input[type='file'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.config-file-preview {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: radial-gradient(
+      80px 80px at 30% 20%,
+      rgba(98, 242, 168, 0.35),
+      transparent 60%
+    ),
+    rgba(12, 18, 15, 0.9);
+  border: 1px solid rgba(98, 242, 168, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.config-file-preview--wide {
+  width: 80px;
+  border-radius: 14px;
+}
+.config-file-icon {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.config-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.config-file-info strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+.config-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.config-save {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-weight: 700;
+  color: #0b120e;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  box-shadow: 0 12px 24px rgba(39, 198, 120, 0.25);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+.config-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(39, 198, 120, 0.3);
+  filter: brightness(1.02);
+}
+.config-save:active {
+  transform: translateY(1px);
+}
+
 .tabs {
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -678,6 +838,10 @@ header .head-side {
 
   .profile-info-data {
     margin-top: 30px;
+  }
+
+  .config-grid {
+    grid-template-columns: 1fr;
   }
 
   .full-friend-list {
