@@ -180,7 +180,6 @@ header .head-side {
   padding: 10px;
 }
 .main aside nav a {
-
   text-decoration: none;
   display: block;
   color: var(--ink-soft);
@@ -236,7 +235,7 @@ header .head-side {
 }
 .menu-item-badge {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #ffffff;
+  color: #333;
   padding: 4px 7px;
   border-radius: 8px;
   margin-right: 4px;

@@ -1,22 +1,27 @@
 import type { Request, Response } from 'express';
 import { activePage } from '../utils/activePage.js';
 import { PostService } from '../service/postService.js';
+import { PerfilService } from '../service/perfilService.js';
 
 export default class HomeController {
-  private service: PostService;
+  private servicePost: PostService;
+  private servicePerfil: PerfilService;
 
   constructor() {
-    this.service = new PostService();
+    this.servicePost = new PostService();
+    this.servicePerfil = new PerfilService();
   }
 
   public index = async (req: Request, res: Response) => {
     const id = req.session.user?.id;
 
-    const posts = await this.service.postsAll(Number(id));
+    const perfilFrom = await this.servicePerfil.getRelationsFrom(Number(id));
 
-    console.log(posts);
+    const posts = await this.servicePost.postsAll(Number(id));
+
     const active = activePage('home');
     res.render('pages/home', {
+      countFriends: perfilFrom?.users?.length,
       active,
       posts,
       user: {
