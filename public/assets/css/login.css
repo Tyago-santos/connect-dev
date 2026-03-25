@@ -79,7 +79,20 @@ form label {
 form input {
   display: block;
 }
-form .input {
+form .auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #cfe0d7;
+  font-size: 13px;
+}
+form .auth-field span {
+  color: #eef6f1;
+  font-weight: 600;
+}
+form .input,
+form .auth-input {
   color: wheat;
   font-size: 15px;
   height: 44px;
@@ -95,7 +108,12 @@ form .input {
     box-shadow 0.2s ease,
     background 0.2s ease;
 }
-form .input:focus {
+form .auth-field .input,
+form .auth-field .auth-input {
+  margin-bottom: 0;
+}
+form .input:focus,
+form .auth-input:focus {
   background-color: #0f1512;
   border-color: #1f3a2f;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);

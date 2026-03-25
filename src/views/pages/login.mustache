@@ -15,9 +15,15 @@
     <section class="container main">
         <div class="message">{{message}}</div>
         <form method="POST" action="/login_action">
-            <input placeholder="Digite seu e-mail" class="input" name="email" />
+            <label class="auth-field">
+                <span>E-mail</span>
+                <input placeholder="Digite seu e-mail" class="auth-input" name="email" />
+            </label>
 
-            <input placeholder="Digite sua senha" class="input" type="password" name="password" />
+            <label class="auth-field">
+                <span>Senha</span>
+                <input placeholder="Digite sua senha" class="auth-input" type="password" name="password" />
+            </label>
 
             <input class="button" type="submit" value="Acessar o sistema" />
 
