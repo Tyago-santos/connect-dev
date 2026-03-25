@@ -6,6 +6,10 @@ declare module 'express-session' {
       id: number;
       name: string;
       email: string;
+      work?: string;
+      city?: string;
+      avatar?: string;
+      cover?: string;
     };
   }
 }

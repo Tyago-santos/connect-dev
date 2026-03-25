@@ -12,7 +12,10 @@ export class UserRepository {
 
   public async getUserByEmail(email: string) {
     try {
-      const rows = await db.query<UserRow>('SELECT * FROM users WHERE email = ?', [email]);
+      const rows = await db.query<UserRow>(
+        'SELECT * FROM users WHERE email = ?',
+        [email],
+      );
 
       return rows[0];
     } catch (err) {
@@ -34,6 +37,28 @@ export class UserRepository {
       };
     } catch (err) {
       console.error(`erro ao criar usuário ${err}`);
+      throw err;
+    }
+  }
+
+  public async updateUserById(
+    id: number,
+    email: string,
+    name: string,
+    city: string,
+    work: string,
+  ) {
+    try {
+      const result = await db.execute(
+        'UPDATE users SET email = ?, name = ?, city = ?, work = ? WHERE id = ?',
+        [email, name, city, work, id],
+      );
+
+      return {
+        affectedRows: result.affectedRows,
+      };
+    } catch (err) {
+      console.error(`erro ao atualizar usuário ${err}`);
       throw err;
     }
   }

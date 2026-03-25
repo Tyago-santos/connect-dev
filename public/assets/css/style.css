@@ -525,6 +525,16 @@ header .head-side {
   flex-direction: column;
   gap: 22px;
 }
+.config-message {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 124, 124, 0.5);
+  background: rgba(60, 16, 16, 0.55);
+  color: #ffe1e1;
+  font-weight: 600;
+  box-shadow: var(--shadow-soft);
+}
 .config-section {
   border: 1px solid var(--border);
   border-radius: 12px;

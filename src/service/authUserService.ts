@@ -1,6 +1,4 @@
-import { fa, tr } from 'zod/locales';
 import { UserRepository } from '../repository/userRepository.js';
-import { schemaLogin } from '../schema/schemaAuth.js';
 import { Hash } from '../utils/hash.js';
 
 export default class AuthUserService {
@@ -14,7 +12,8 @@ export default class AuthUserService {
   public loginService = async (password: string, email: string) => {
     const user = await this.repository.getUserByEmail(email);
     if (!user) return false;
-    const hashCompare = (await this.bycrypt.comparePassword(password, user.password)) ?? false;
+    const hashCompare =
+      (await this.bycrypt.comparePassword(password, user.password)) ?? false;
 
     if (hashCompare) {
       return { id: user.id, name: user.name, email: user.email };
