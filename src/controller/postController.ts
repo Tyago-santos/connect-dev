@@ -22,13 +22,13 @@ export class PostController {
     }
   };
 
-  public postLike = (req: Request, res: Response) => {
+  public postLike = async (req: Request, res: Response) => {
     const id = req.params.id;
     const idUser = req.session.user?.id;
+    console.log(id + ' post', idUser + ' usuário');
 
     if (id && idUser) {
-      this.repository.postLikeToogle(+id, +idUser);
-      res.redirect('/');
+      await this.repository.postLikeToogle(+id, +idUser);
     }
   };
 }

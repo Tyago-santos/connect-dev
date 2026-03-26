@@ -83,7 +83,7 @@ window.onload = function () {
         item.innerText = --count;
       }
 
-      fetch('/ajax_like?id=' + id);
+      fetch('/ajax_like/' + id);
     });
   });
 };

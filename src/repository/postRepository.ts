@@ -120,15 +120,16 @@ export class PostRepository {
   public postLikeToogle = async (idPost: number, idUser: number) => {
     try {
       const postLike = await this.getIsLikedPost(idPost, idUser);
-
-      if (postLike) {
+      const isLiked = Array.isArray(postLike) && postLike.length > 0;
+      
+      if (isLiked) {
         await db.insert(
-          'DELETE FROM  FROM postlikes WHERE id_post = ? AND id_user = ? ',
+          'DELETE FROM postlikes WHERE id_post = ? AND id_user = ?',
           [idPost, idUser],
         );
       } else {
         await db.insert(
-          'INSERT INTO  postlikes (id_post, id_user, created_at) VALUES id_post = ? AND id_user = ?  created_at: NOW()',
+          'INSERT INTO postlikes (id_post, id_user, created_at) VALUES (?, ?, NOW())',
           [idPost, idUser],
         );
       }
