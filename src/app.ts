@@ -13,6 +13,7 @@ import { dbConfig, dbDialect, getPgPool } from './database/connection.js';
 export const app = express();
 
 app.use(helmet());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const MySQLStore = MySQLStoreFactory(session);

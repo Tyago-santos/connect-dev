@@ -24,6 +24,7 @@ export default class HomeController {
       countFriends: perfilFrom?.users?.length,
       active,
       posts,
+      
       user: {
         name: req.session.user?.name,
         email: req.session.user?.email,

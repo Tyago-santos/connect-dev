@@ -143,14 +143,18 @@
                                     </div>
                                 </div>
 
-                                <div class="fic-item row m-height-10 m-width-20">
-                                    <div class="fic-item-photo">
-                                        <a href=""><img src="/media/avatars/avatar.jpg" /></a>
+                                <div class="feed-item-comments-area">
+                                    {{#postComment}}
+                                    <div class="fic-item row m-height-10 m-width-20">
+                                        <div class="fic-item-photo">
+                                            <a href="/perfil/{{id_user}}"><img src="/media/avatars/avatar.jpg" /></a>
+                                        </div>
+                                        <div class="fic-item-info">
+                                            <a href="/perfil/{{id_user}}">{{user.name}}</a>
+                                            {{body}}
+                                        </div>
                                     </div>
-                                    <div class="fic-item-info">
-                                        <a href="">Tiago Santos</a>
-                                        Muito legal, parabéns!
-                                    </div>
+                                    {{/postComment}}
                                 </div>
 
                                 <div class="fic-answer row m-height-10 m-width-20">

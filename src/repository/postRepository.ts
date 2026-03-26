@@ -121,7 +121,7 @@ export class PostRepository {
     try {
       const postLike = await this.getIsLikedPost(idPost, idUser);
       const isLiked = Array.isArray(postLike) && postLike.length > 0;
-      
+
       if (isLiked) {
         await db.insert(
           'DELETE FROM postlikes WHERE id_post = ? AND id_user = ?',
@@ -138,6 +138,32 @@ export class PostRepository {
       throw err;
     }
   };
+
+  public async getCommentPost(idPost: number) {
+    try {
+      const rows = await db.query<PostCommentRow>(
+        `SELECT * FROM postscomments WHERE id_post = ?`,
+        [idPost],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao pega comentarios dos posts ${err}`);
+      return [];
+    }
+  }
+
+  public async addCommentPost(pc: PostCommentRow) {
+    try {
+      const rows = await db.query<PostCommentRow>(
+        `INSERT INTO postscomments (id_post, id_user, body, created_at) VALUES (?, ?, ?, ?)`,
+        [pc.id_post, pc.id_user, pc.body, pc.created_at],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao inserir no posts ${err}`);
+      return [];
+    }
+  }
 }
 
 export interface PostRow {
@@ -145,5 +171,13 @@ export interface PostRow {
   body: string;
   id_user: string;
   type: string;
+  created_at: string;
+}
+
+export interface PostCommentRow {
+  id: number;
+  id_post: number;
+  id_user: number | string;
+  body: string;
   created_at: string;
 }

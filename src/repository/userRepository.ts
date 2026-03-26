@@ -23,6 +23,18 @@ export class UserRepository {
     }
   }
 
+  public async getUserById(id: number) {
+    try {
+      const rows = await db.query<UserRow>('SELECT * FROM users WHERE id = ?', [
+        id,
+      ]);
+
+      return rows[0];
+    } catch (err) {
+      console.error(`erro ao pegar usúario por id ${err}`);
+    }
+  }
+
   public async createUser(email: string, password: string, name: string) {
     try {
       const result = await db.insert(
@@ -64,7 +76,7 @@ export class UserRepository {
   }
 }
 
-interface UserRow {
+export interface UserRow {
   id: number;
   name: string;
   password: string;

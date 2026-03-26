@@ -1,10 +1,13 @@
 import { PostRepository, type PostRow } from '../repository/postRepository.js';
+import { UserRepository } from '../repository/userRepository.js';
 
 export class PostService {
   private repository: PostRepository;
+  private userRepository: UserRepository;
 
   constructor() {
     this.repository = new PostRepository();
+    this.userRepository = new UserRepository();
   }
 
   public postsAll = async (
@@ -28,13 +31,31 @@ export class PostService {
                 +post.id_user,
               );
 
-              console.log(post);
+              const postComment = await this.repository.getCommentPost(post.id);
+              const postCommentWithUser = postComment
+                ? await Promise.all(
+                    postComment.map(async (comment) => {
+                      const user = comment.id_user != null
+                        ? await this.userRepository.getUserById(
+                            Number(comment.id_user),
+                          )
+                        : undefined;
+
+                      return {
+                        ...comment,
+                        user,
+                      };
+                    }),
+                  )
+                : undefined;
 
               return {
                 ...post,
                 isLiked: isLiked.length > 0 ? true : false,
                 likeCount: likeCount ?? 0,
                 created_at: `${day}/${month}/${year}`,
+                postComment: postCommentWithUser,
+                countComment: postComment?.length ?? 0,
               };
             }),
           )
@@ -62,11 +83,31 @@ export class PostService {
             +post.id_user,
           );
 
+          const postComment = await this.repository.getCommentPost(post.id);
+          const postCommentWithUser = postComment
+            ? await Promise.all(
+                postComment.map(async (comment) => {
+                  const user = comment.id_user != null
+                    ? await this.userRepository.getUserById(
+                        Number(comment.id_user),
+                      )
+                    : undefined;
+
+                  return {
+                    ...comment,
+                    user,
+                  };
+                }),
+              )
+            : undefined;
+
           return {
             ...post,
             isLiked: isLiked.length > 0 ? true : false,
             likeCount: likeCount ?? 0,
             created_at: `${day}/${month}/${year}`,
+            postComment: postCommentWithUser,
+            countComment: postComment?.length ?? 0,
           };
         }),
       );
