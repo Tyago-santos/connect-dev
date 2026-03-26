@@ -75,6 +75,68 @@ export class PostRepository {
       throw err;
     }
   }
+
+  public async getLikePost(idPost: number): Promise<number | undefined> {
+    //  const result = await db.insert(
+    //     'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) RETURNING id',
+    //     [body, userId, type, createAt],
+    //   );
+
+    // postgress
+    try {
+      const result = await db.query<{ c: number | string }>(
+        'SELECT COUNT(*) AS c FROM postlikes WHERE id_post = ?  ',
+        [idPost],
+      );
+
+      const count = result?.[0]?.c ?? 0;
+      return typeof count === 'string' ? Number(count) : count;
+    } catch (err) {
+      console.error(`erro ao daar like no post  ${err}`);
+      throw err;
+    }
+  }
+
+  public async getIsLikedPost(idPost: number, idUser: number) {
+    //  const result = await db.insert(
+    //     'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) RETURNING id',
+    //     [body, userId, type, createAt],
+    //   );
+
+    // postgress
+    try {
+      const result = await db.query(
+        'SELECT 1 FROM postlikes WHERE id_post = ? AND id_user = ? LIMIT 1',
+        [idPost, idUser],
+      );
+
+      return result;
+    } catch (err) {
+      console.error(`erro ao daar like no post  ${err}`);
+      throw err;
+    }
+  }
+
+  public postLikeToogle = async (idPost: number, idUser: number) => {
+    try {
+      const postLike = await this.getIsLikedPost(idPost, idUser);
+
+      if (postLike) {
+        await db.insert(
+          'DELETE FROM  FROM postlikes WHERE id_post = ? AND id_user = ? ',
+          [idPost, idUser],
+        );
+      } else {
+        await db.insert(
+          'INSERT INTO  postlikes (id_post, id_user, created_at) VALUES id_post = ? AND id_user = ?  created_at: NOW()',
+          [idPost, idUser],
+        );
+      }
+    } catch (err) {
+      console.error(`erro ao deletar like  ${err}`);
+      throw err;
+    }
+  };
 }
 
 export interface PostRow {

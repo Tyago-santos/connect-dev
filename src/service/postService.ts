@@ -11,19 +11,34 @@ export class PostService {
     id: number,
   ): Promise<PostRow[] | false | undefined> => {
     const postsRelations = await this.repository.postFromRelatios(id);
+
     if (postsRelations) {
       const posts = await this.repository.getAllPost(postsRelations, id);
-      const formattedPosts = posts?.map((post) => {
-        const date = new Date(post.created_at);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
+      const formattedPosts = posts
+        ? await Promise.all(
+            posts.map(async (post) => {
+              const date = new Date(post.created_at);
+              const day = String(date.getDate()).padStart(2, '0');
+              const month = String(date.getMonth() + 1).padStart(2, '0');
+              const year = date.getFullYear();
 
-        return {
-          ...post,
-          created_at: `${day}/${month}/${year}`,
-        };
-      });
+              const likeCount = await this.repository.getLikePost(post.id);
+              const isLiked = await this.repository.getIsLikedPost(
+                post.id,
+                +post.id_user,
+              );
+
+              console.log(post);
+
+              return {
+                ...post,
+                isLiked: isLiked.length > 0 ? true : false,
+                likeCount: likeCount ?? 0,
+                created_at: `${day}/${month}/${year}`,
+              };
+            }),
+          )
+        : undefined;
       return formattedPosts ? formattedPosts : false;
     }
   };
@@ -34,17 +49,27 @@ export class PostService {
     const posts = await this.repository.getAllPostUser(id);
 
     if (posts) {
-      const formattedPosts = posts?.map((post) => {
-        const date = new Date(post.created_at);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
+      const formattedPosts = await Promise.all(
+        posts.map(async (post) => {
+          const date = new Date(post.created_at);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
 
-        return {
-          ...post,
-          created_at: `${day}/${month}/${year}`,
-        };
-      });
+          const likeCount = await this.repository.getLikePost(post.id);
+          const isLiked = await this.repository.getIsLikedPost(
+            post.id,
+            +post.id_user,
+          );
+
+          return {
+            ...post,
+            isLiked: isLiked.length > 0 ? true : false,
+            likeCount: likeCount ?? 0,
+            created_at: `${day}/${month}/${year}`,
+          };
+        }),
+      );
       return formattedPosts ? formattedPosts : false;
     }
   };

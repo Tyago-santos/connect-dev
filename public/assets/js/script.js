@@ -9,7 +9,9 @@ function setActiveTab(tab) {
 }
 function showTab() {
   if (document.querySelector('.tab-item.active')) {
-    let activeTab = document.querySelector('.tab-item.active').getAttribute('data-for');
+    let activeTab = document
+      .querySelector('.tab-item.active')
+      .getAttribute('data-for');
     document.querySelectorAll('.tab-body').forEach(function (e) {
       if (e.getAttribute('data-item') == activeTab) {
         e.style.display = 'block';
@@ -64,3 +66,24 @@ if (formPost && buttonSubmit && newPostInput && postBodyInput) {
     formPost.submit();
   });
 }
+
+window.onload = function () {
+  document.querySelectorAll('.like-btn').forEach((item) => {
+    item.addEventListener('click', () => {
+      let id = item.closest('.feed-item').getAttribute('data-id');
+      console.log(id);
+      let count = parseInt(item.innerText);
+      if (item.classList.contains('on') === false) {
+        item.classList.add('on');
+        // eslint-disable-next-line no-useless-assignment
+        item.innerText = ++count;
+      } else {
+        item.classList.remove('on');
+        // eslint-disable-next-line no-useless-assignment
+        item.innerText = --count;
+      }
+
+      fetch('/ajax_like?id=' + id);
+    });
+  });
+};
