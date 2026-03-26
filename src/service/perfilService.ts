@@ -76,4 +76,33 @@ export class PerfilService {
       };
     }
   };
+
+  public isRelationsService = async (
+    idUser: number,
+    idPerfil: number,
+  ): Promise<boolean> => {
+    const followers = await this.repositoryRelations.isRelations(
+      idUser,
+      idPerfil,
+    );
+    if (followers) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  public follerDeleteAndInsert = async (idUser: number, id: number) => {
+    const isFoller = await this.isRelationsService(idUser, id);
+
+    if (isFoller) {
+      await this.repositoryRelations.deleteFollers(idUser, id);
+
+      return !isFoller;
+    } else {
+      await this.repositoryRelations.insertFollers(idUser, id);
+
+      return false;
+    }
+  };
 }

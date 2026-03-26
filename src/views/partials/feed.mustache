@@ -7,6 +7,8 @@
                   background-image: url('/media/covers/cover.jpg');"
               ></div>
               <div class="profile-info m-20 row">
+
+                  
                 <div class="profile-info-avatar">
                   <img src="/media/avatars/avatar.jpg" />
                 </div>
@@ -15,6 +17,31 @@
                   <div class="profile-info-location">Campina Grande</div>
                 </div>
                 <div class="profile-info-data row">
+
+
+                {{#userFollers}}
+                {{#follers}}
+
+                  <div class="profile-info-item m-width-20">
+                    <a href="/follers/{{user.id}}" class="follow-button">
+                      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                       Deixar de seguir
+                    </a>
+                  </div>
+                {{/follers}}
+
+                  {{^follers}}
+
+                  <div class="profile-info-item m-width-20">
+                    <a href="/follers/{{user.id}}" class="follow-button">
+                      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                      Seguir
+                    </a>
+                  </div>
+                {{/follers}}
+
+                {{/userFollers}}
+            
                   <div class="profile-info-item m-width-20">
                     <div class="profile-info-item-n">{{relations.to}}</div>
                     <div class="profile-info-item-s">Seguidores</div>

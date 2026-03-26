@@ -30,17 +30,37 @@ export class PerfilController {
         Number(idUser),
       );
 
+      const isFollers = id
+        ? await this.servicePerfil.isRelationsService(+id, +idUser)
+        : false;
+
+      const userFollers = id !== +idUser ? true : false;
+
+      console.log(isFollers);
+
       return res.render('pages/perfil', {
         active,
         countFriends: userInfor?.relationsFrom.length,
         userPosts,
         user: userInfor?.user,
         users: usersFrom?.users,
+        userFollers,
+        follers: isFollers,
         relations: {
           to: userInfor?.relationsTo.length,
           from: userInfor?.relationsFrom.length,
         },
       });
     }
+  };
+
+  public follers = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const userId = req.session.user?.id;
+
+    if (id && userId)
+      await this.servicePerfil.follerDeleteAndInsert(+userId, +id);
+
+    res.redirect('/perfil/' + id);
   };
 }
