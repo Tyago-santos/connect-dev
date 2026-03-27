@@ -16,19 +16,24 @@ export default class AuthUserService {
       (await this.bycrypt.comparePassword(password, user.password)) ?? false;
 
     if (hashCompare) {
-      return { id: user.id, name: user.name, email: user.email };
+      return { id: user.id, name: user.name, email: user.email, birthdate: user.birthdate };
     } else {
       return false;
     }
   };
 
-  public createUser = async (password: string, email: string, name: string) => {
+  public createUser = async (
+    password: string,
+    email: string,
+    name: string,
+    birthdate: string,
+  ) => {
     const user = await this.repository.getUserByEmail(email);
 
     const hashCompare = await this.bycrypt.hashPassword(password);
 
     if (!user) {
-      return this.repository.createUser(email, hashCompare, name);
+      return this.repository.createUser(email, hashCompare, name, birthdate);
     }
 
     return false;

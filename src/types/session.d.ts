@@ -6,6 +6,7 @@ declare module 'express-session' {
       id: number;
       name: string;
       email: string;
+      birthdate: Date;
       work?: string;
       city?: string;
       avatar?: string;

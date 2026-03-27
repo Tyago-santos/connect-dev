@@ -1,5 +1,6 @@
 import { db } from '../database/connection.js';
 import type { RelationsFrom, RelationsTo } from './relationsRepository.js';
+import type { UserRow } from './userRepository.js';
 
 export class PerfilRepository {
   public async getPerfil(id: number) {
@@ -75,12 +76,4 @@ export class PerfilRepository {
   }
 }
 
-interface UserRow {
-  id: number;
-  name: string;
-  password: string;
-  email: string;
-  city: string;
-  birthdate: string;
-  work: string;
-}
+

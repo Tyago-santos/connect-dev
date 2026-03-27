@@ -38,6 +38,7 @@ export class AuthUserController {
         id: user.id,
         name: user.name,
         email: user.email,
+        birthdate: user.birthdate,
       };
 
       return res.redirect('/');
@@ -47,9 +48,9 @@ export class AuthUserController {
   };
 
   public registerAction = async (req: Request, res: Response) => {
-    const { password, email, name } = req.body;
+    const { password, email, name, birthdate } = req.body;
 
-    const { error, success } = schemaRegister(password, email, name);
+    const { error, success } = schemaRegister(password, email, name, birthdate);
     const message =
       error?.issues.map((issue) => issue.message).join(', ') ||
       'Email ou senha inválidos';
@@ -60,13 +61,19 @@ export class AuthUserController {
     }
 
     try {
-      const user = await this.authUserService.createUser(password, email, name);
+      const user = await this.authUserService.createUser(
+        password,
+        email,
+        name,
+        birthdate,
+      );
 
       if (user) {
         req.session.user = {
           id: user.id,
           name: user.name,
           email: user.email,
+          birthdate: user.birthdate,
         };
 
         return res.redirect('/');

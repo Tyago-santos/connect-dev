@@ -35,17 +35,30 @@ export class UserRepository {
     }
   }
 
-  public async createUser(email: string, password: string, name: string) {
+  public async createUser(
+    email: string,
+    password: string,
+    name: string,
+    birthdate: string,
+  ) {
     try {
+      const birthdateFormatted = new Date(birthdate)
+        .toISOString()
+        .slice(0, 19)
+        .replace('T', ' ');
+
       const result = await db.insert(
-        'INSERT INTO users (name, email, password) VALUES (?, ?, ?) ',
-        [name, email, password],
+        'INSERT INTO users (name, email, password, birthdate) VALUES (?, ?, ?, ?)',
+        [name, email, password, birthdateFormatted],
       );
+
+      const birthdateDate = new Date(birthdateFormatted);
 
       return {
         id: result.insertId,
         name: name,
         email: email,
+        birthdate: birthdateDate,
       };
     } catch (err) {
       console.error(`erro ao criar usuário ${err}`);
@@ -81,4 +94,9 @@ export interface UserRow {
   name: string;
   password: string;
   email: string;
+  birthdate: Date;
+  avatar?: string;
+  cover?: string;
+  city?: string;
+  work?: string;
 }

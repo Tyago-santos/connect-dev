@@ -4,16 +4,24 @@ import {
   type RelationsFrom,
   type RelationsTo,
 } from '../repository/relationsRepository.js';
+import type { UserRow } from '../repository/userRepository.js';
+import { formatDateToBrazil } from '../utils/formatDate.js';
 
-interface UserRow {
+type UserWithFormattedBirthdate = {
   id: number;
   name: string;
-  password: string;
   email: string;
-}
+  birthdate: string;
+  birthdateFormatted: string;
+  age: number;
+  city?: string;
+  work?: string;
+  avatar?: string;
+  cover?: string;
+};
 
 type UsersRelationsType = {
-  user: UserRow;
+  user: UserWithFormattedBirthdate;
   relationsTo: RelationsFrom[];
   relationsFrom: RelationsTo[];
 };
@@ -33,12 +41,28 @@ export class PerfilService {
     const user = await this.repositoryPerfil.getPerfil(id);
     const relationsTo = await this.repositoryRelations.relationsTo(id);
     const relationsFrom = await this.repositoryRelations.relationsFrom(id);
-    if (user && relationsTo && relationsFrom)
+    if (user && relationsTo && relationsFrom) {
+      const birthDate = new Date(user.birthdate);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear() - 
+        (today.getMonth() < birthDate.getMonth() || 
+        (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate()) ? 1 : 0);
+
+      const { password: _, ...userWithoutPassword } = user;
+      void _;
+
       return {
-        user,
+        user: {
+          ...userWithoutPassword,
+          birthdate: birthDate.toISOString(),
+          birthdateFormatted: formatDateToBrazil(birthDate),
+          age,
+          cover: user.cover || '/media/covers/cover_placeholder.jpg',
+        },
         relationsTo,
         relationsFrom,
       };
+    }
   };
 
   public getRelationsFrom = async (

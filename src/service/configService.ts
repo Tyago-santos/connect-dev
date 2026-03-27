@@ -27,6 +27,6 @@ export default class ConfigService {
       work,
     );
 
-    return { ok: true, reason: null as const, updated: result.affectedRows > 0 };
+    return { ok: true, reason: null as string | null, updated: result.affectedRows > 0 };
   };
 }

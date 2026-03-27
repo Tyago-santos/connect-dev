@@ -17,6 +17,8 @@ export class ConfigController {
         name: req.session.user?.name,
         email: req.session.user?.email,
         id: req.session.user?.id,
+        city: req.session.user?.city,
+        work: req.session.user?.work,
       },
     });
   };
@@ -33,10 +35,8 @@ export class ConfigController {
 
     const nextEmail = (email || '').trim() || currentUser.email;
     const nextName = (name || '').trim() || currentUser.name;
-    const nextWork =
-      (work || '').trim() || currentUser.work || null;
-    const nextCity =
-      (city || '').trim() || currentUser.city || null;
+    const nextWork = (work || '').trim() || currentUser.work || null;
+    const nextCity = (city || '').trim() || currentUser.city || null;
 
     if (!nextName && !nextEmail && !nextWork && !nextCity) {
       req.flash('error', 'Precisa alterar algum campo');
@@ -61,6 +61,7 @@ export class ConfigController {
       id: userId,
       name: nextName,
       email: nextEmail,
+      birthdate: currentUser.birthdate,
       work: nextWork,
       city: nextCity,
     };
