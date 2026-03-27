@@ -39,6 +39,7 @@ export class AuthUserController {
         name: user.name,
         email: user.email,
         birthdate: user.birthdate,
+        avatar: user.avatar,
       };
 
       return res.redirect('/');

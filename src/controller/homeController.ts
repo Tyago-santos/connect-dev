@@ -17,6 +17,7 @@ export default class HomeController {
 
   public index = async (req: Request, res: Response) => {
     const id = req.session.user?.id;
+    console.log(req.session.user?.avatar);
 
     const perfilFrom = await this.servicePerfil.getRelationsFrom(Number(id));
 
@@ -32,7 +33,12 @@ export default class HomeController {
         name: req.session.user?.name,
         email: req.session.user?.email,
         id: req.session.user?.id,
+        avatar: req.session.user?.avatar,
       },
+
+      perfilAvatar: !req.session.user?.avatar || req.session.user.avatar === '0'
+        ? '/media/avatars/avatar.jpg'
+        : req.session.user.avatar,
     });
   };
 

@@ -35,11 +35,12 @@ export class PostService {
               const postCommentWithUser = postComment
                 ? await Promise.all(
                     postComment.map(async (comment) => {
-                      const user = comment.id_user != null
-                        ? await this.userRepository.getUserById(
-                            Number(comment.id_user),
-                          )
-                        : undefined;
+                      const user =
+                        comment.id_user != null
+                          ? await this.userRepository.getUserById(
+                              Number(comment.id_user),
+                            )
+                          : undefined;
 
                       return {
                         ...comment,
@@ -49,6 +50,16 @@ export class PostService {
                   )
                 : undefined;
 
+              const user =
+                post.id_user != null
+                  ? await this.userRepository.getUserById(Number(post.id_user))
+                  : null;
+
+              const postAvatar =
+                user?.avatar !== '0'
+                  ? user?.avatar
+                  : '/media/avatars/avatar.jpg';
+
               return {
                 ...post,
                 isLiked: isLiked.length > 0 ? true : false,
@@ -56,6 +67,8 @@ export class PostService {
                 created_at: `${day}/${month}/${year}`,
                 postComment: postCommentWithUser,
                 countComment: postComment?.length ?? 0,
+                user: user ?? undefined,
+                postAvatar,
               };
             }),
           )
@@ -87,11 +100,12 @@ export class PostService {
           const postCommentWithUser = postComment
             ? await Promise.all(
                 postComment.map(async (comment) => {
-                  const user = comment.id_user != null
-                    ? await this.userRepository.getUserById(
-                        Number(comment.id_user),
-                      )
-                    : undefined;
+                  const user =
+                    comment.id_user != null
+                      ? await this.userRepository.getUserById(
+                          Number(comment.id_user),
+                        )
+                      : undefined;
 
                   return {
                     ...comment,
@@ -101,6 +115,15 @@ export class PostService {
               )
             : undefined;
 
+          const user =
+            post.id_user != null
+              ? await this.userRepository.getUserById(Number(post.id_user))
+              : null;
+
+          const postAvatar = user?.avatar
+            ? user.avatar
+            : '/media/avatars/avatar.jpg';
+
           return {
             ...post,
             isLiked: isLiked.length > 0 ? true : false,
@@ -108,6 +131,8 @@ export class PostService {
             created_at: `${day}/${month}/${year}`,
             postComment: postCommentWithUser,
             countComment: postComment?.length ?? 0,
+            user: user ?? undefined,
+            postAvatar,
           };
         }),
       );

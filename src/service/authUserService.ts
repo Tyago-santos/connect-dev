@@ -16,7 +16,13 @@ export default class AuthUserService {
       (await this.bycrypt.comparePassword(password, user.password)) ?? false;
 
     if (hashCompare) {
-      return { id: user.id, name: user.name, email: user.email, birthdate: user.birthdate };
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        birthdate: user.birthdate,
+        avatar: user.avatar,
+      };
     } else {
       return false;
     }

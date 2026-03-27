@@ -114,6 +114,40 @@ export class UserRepository {
       throw err;
     }
   }
+
+  public async updateAvatar(id: number, avatar: string) {
+    try {
+      const result = await db.execute(
+        'UPDATE users SET avatar = ? WHERE id = ?',
+        [avatar, id],
+      );
+
+      return {
+        affectedRows: result.affectedRows,
+      };
+    } catch (err) {
+      console.error(`erro ao atualizar avatar ${err}`);
+      throw err;
+    }
+  }
+
+  public async updateCover(id: number, cover: string) {
+    try {
+      console.log('DEBUG updateCover: id=', id, 'cover=', cover);
+      const result = await db.execute(
+        'UPDATE users SET cover = ? WHERE id = ?',
+        [cover, id],
+      );
+      console.log('DEBUG updateCover result:', result);
+
+      return {
+        affectedRows: result.affectedRows,
+      };
+    } catch (err) {
+      console.error(`erro ao atualizar cover ${err}`);
+      throw err;
+    }
+  }
 }
 
 export interface UserRow {
@@ -122,7 +156,7 @@ export interface UserRow {
   password: string;
   email: string;
   birthdate: Date;
-  avatar?: string;
+  avatar: string;
   cover?: string;
   city?: string;
   work?: string;

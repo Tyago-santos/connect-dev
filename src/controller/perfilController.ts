@@ -22,13 +22,17 @@ export class PerfilController {
     const { id: idUser } = req.params;
     const id = req.session.user?.id;
 
-    const userPosts = await this.servicePost.postAllUser(Number(id));
+    const userPosts = await this.servicePost.postAllUser(Number(idUser));
+
+    console.log('UserPosts com avatar:', JSON.stringify(userPosts, null, 2));
 
     if (idUser) {
       const userInfor = await this.servicePerfil.getPerfil(Number(idUser));
       const usersFrom = await this.servicePerfil.getRelationsFrom(
         Number(idUser),
       );
+
+      console.log(userInfor);
 
       const isFollers = id
         ? await this.servicePerfil.isRelationsService(+id, +idUser)
@@ -42,6 +46,11 @@ export class PerfilController {
         active,
         countFriends: userInfor?.relationsFrom.length,
         userPosts,
+        perfilAvatar:
+          req.session.user?.avatar !== '0'
+            ? req.session.user?.avatar
+            : '/media/avatars/avatar.jpg',
+
         user: userInfor?.user,
         users: usersFrom?.users,
         userFollers,
