@@ -152,7 +152,6 @@ export class PostService {
 
       if (post) return post;
     } catch (err) {
-      console.error('error ao cria post no service ' + err);
       throw err;
 
       return false;

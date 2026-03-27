@@ -52,6 +52,8 @@ app.engine('mustache', mustacheExpress(path.resolve('src/views/partials')));
 app.set('view engine', 'mustache');
 app.set('views', path.resolve('src/views'));
 
+import { runMigrations } from './database/migrate.js';
+
 app.use(router);
 
 import NotFoundController from './controller/notFoundController.js';
@@ -59,6 +61,10 @@ const notFoundController = new NotFoundController();
 
 app.use(notFoundController.index);
 
-app.listen(process.env.PORT, () => {
-  console.log('servidor rodando');
-});
+const startServer = async () => {
+  await runMigrations();
+  
+  app.listen(process.env.PORT);
+};
+
+startServer();

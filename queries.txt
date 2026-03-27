@@ -1,0 +1,44 @@
+-name postlikes
+id autocrement int primary
+id_user int 200
+created_at datetime
+id_post int 200
+
+-posts
+id autocrement int primary
+type char 50
+created_at datetime
+body text
+id_user int 200
+
+-postscomments
+id autocrement int primary
+created_at datetime
+id_user int 200
+id_post int
+body text
+
+
+
+-users
+id autocrement int primary
+email vachar 100
+password vachar 200
+name vachar 100
+city vachar 100
+birthdate date
+work vachar 100
+avatar vachar 100
+cover vachar 200
+
+
+-user_relations
+id autocrement int primary
+user_from vachar 100
+user_to vachar 100
+
+
+
+
+
+

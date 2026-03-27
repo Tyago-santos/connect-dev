@@ -17,7 +17,6 @@ export default class HomeController {
 
   public index = async (req: Request, res: Response) => {
     const id = req.session.user?.id;
-    console.log(req.session.user?.avatar);
 
     const perfilFrom = await this.servicePerfil.getRelationsFrom(Number(id));
 

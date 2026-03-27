@@ -2,14 +2,17 @@ import type { Request, Response } from 'express';
 import { activePage } from '../utils/activePage.js';
 import ConfigService from '../service/configService.js';
 import { UserRepository } from '../repository/userRepository.js';
+import { UploadService } from '../service/uploadService.js';
 
 export class ConfigController {
   private service: ConfigService;
   private userRepository: UserRepository;
+  private uploadService: UploadService;
 
   constructor() {
     this.service = new ConfigService();
     this.userRepository = new UserRepository();
+    this.uploadService = new UploadService();
   }
   public config = async (req: Request, res: Response) => {
     const active = activePage('config');
@@ -82,13 +85,11 @@ export class ConfigController {
     let cover = currentUser.cover ?? '';
 
     if (avatarFile) {
-      avatar = `/media/avatars/${avatarFile.filename}`;
-      await this.userRepository.updateAvatar(userId, avatar);
+      avatar = await this.uploadService.uploadAvatar(userId, avatarFile);
     }
 
     if (coverFile) {
-      cover = `/media/covers/${coverFile.filename}`;
-      await this.userRepository.updateCover(userId, cover);
+      cover = await this.uploadService.uploadCover(userId, coverFile);
     }
 
     const newSession = { ...currentUser };

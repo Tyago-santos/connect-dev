@@ -17,7 +17,7 @@ export class RelationsRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar posts relacinados to ${err}`);
+      throw err;
     }
   }
 
@@ -29,7 +29,7 @@ export class RelationsRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar posts relacinados from ${err}`);
+      throw err;
     }
   }
 
@@ -41,7 +41,7 @@ export class RelationsRepository {
       );
       return rows[0];
     } catch (err) {
-      console.error(`erro ao pegar posts relacinados  ${err}`);
+      throw err;
     }
   }
 
@@ -53,7 +53,7 @@ export class RelationsRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro fazer relacao de inserção ${err}`);
+      throw err;
     }
   }
 
@@ -65,7 +65,7 @@ export class RelationsRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao deletar relação de follers ${err}`);
+      throw err;
     }
   }
 }

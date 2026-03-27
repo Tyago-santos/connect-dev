@@ -24,23 +24,17 @@ export class PerfilController {
 
     const userPosts = await this.servicePost.postAllUser(Number(idUser));
 
-    console.log('UserPosts com avatar:', JSON.stringify(userPosts, null, 2));
-
     if (idUser) {
       const userInfor = await this.servicePerfil.getPerfil(Number(idUser));
       const usersFrom = await this.servicePerfil.getRelationsFrom(
         Number(idUser),
       );
 
-      console.log(userInfor);
-
       const isFollers = id
         ? await this.servicePerfil.isRelationsService(+id, +idUser)
         : false;
 
       const userFollers = id !== +idUser ? true : false;
-
-      console.log(isFollers);
 
       return res.render('pages/perfil', {
         active,

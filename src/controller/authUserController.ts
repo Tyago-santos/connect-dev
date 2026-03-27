@@ -21,7 +21,7 @@ export class AuthUserController {
 
   public loginAction = async (req: Request, res: Response) => {
     const { password, email } = req.body;
-    console.log(password);
+
     const user = await this.authUserService.loginService(password, email);
     const { error, success } = schemaLogin(password, email);
     const message =
@@ -82,7 +82,6 @@ export class AuthUserController {
         req.flash('error', 'Email ja existe');
       }
     } catch (err) {
-      console.error('Erro ao registrar usuario:', err);
       req.flash('error', 'Erro interno ao criar usuario');
     }
 
@@ -92,7 +91,6 @@ export class AuthUserController {
   public logout = (req: Request, res: Response) => {
     req.session.destroy((err) => {
       if (err) {
-        console.error('sessão nãp foi apagada', err);
         res.redirect('/');
       }
 

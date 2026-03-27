@@ -6,6 +6,8 @@
     "dev": "node --env-file=.env --watch --import tsx ./src/app.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.9.0",
+    "@supabase/supabase-js": "^2.100.1",
     "bcryptjs": "^3.0.3",
     "connect-pg-simple": "^9.0.1",
     "eslit": "^6.0.0",

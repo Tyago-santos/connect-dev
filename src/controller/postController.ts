@@ -25,7 +25,6 @@ export class PostController {
 
     if (body && id) {
       const post = await this.service.createPost(body, id);
-      console.log('chegou');
 
       if (post) return res.redirect('/');
     }
@@ -34,7 +33,6 @@ export class PostController {
   public postLike = async (req: Request) => {
     const id = req.params.id;
     const idUser = req.session.user?.id;
-    console.log(id + ' post', idUser + ' usuário');
 
     if (id && idUser) {
       await this.repository.postLikeToogle(+id, +idUser);
@@ -43,8 +41,6 @@ export class PostController {
 
   public postComment = async (req: Request, res: Response) => {
     const { id, txt } = req.body;
-
-    console.log('DEBUG - req.body:', req.body);
 
     if (id && txt) {
       const data = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -56,11 +52,7 @@ export class PostController {
         created_at: data,
       } as PostCommentRow;
 
-      console.log('DEBUG - newComment:', newComment);
-
-      const result = await this.repository.addCommentPost(newComment);
-
-      console.log('DEBUG - addCommentPost result:', result);
+      await this.repository.addCommentPost(newComment);
 
       res.json({
         name: req.session.user?.name,

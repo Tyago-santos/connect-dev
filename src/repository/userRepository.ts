@@ -6,7 +6,7 @@ export class UserRepository {
       const rows = await db.query<UserRow>('SELECT * FROM users');
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar usúarios ${err}`);
+      throw err;
     }
   }
 
@@ -19,7 +19,7 @@ export class UserRepository {
 
       return rows[0];
     } catch (err) {
-      console.error(`erro ao pegar usúario por id ${err}`);
+      throw err;
     }
   }
 
@@ -31,7 +31,7 @@ export class UserRepository {
 
       return rows[0];
     } catch (err) {
-      console.error(`erro ao pegar usúario por id ${err}`);
+      throw err;
     }
   }
 
@@ -43,8 +43,7 @@ export class UserRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao buscar usuários ${err}`);
-      return [];
+      throw err;
     }
   }
 
@@ -74,7 +73,6 @@ export class UserRepository {
         birthdate: birthdateDate,
       };
     } catch (err) {
-      console.error(`erro ao criar usuário ${err}`);
       throw err;
     }
   }
@@ -88,7 +86,6 @@ export class UserRepository {
 
       return result;
     } catch (err) {
-      console.error(`erro ao criar usuário ${err}`);
       throw err;
     }
   };
@@ -110,7 +107,6 @@ export class UserRepository {
         affectedRows: result.affectedRows,
       };
     } catch (err) {
-      console.error(`erro ao atualizar usuário ${err}`);
       throw err;
     }
   }
@@ -126,25 +122,21 @@ export class UserRepository {
         affectedRows: result.affectedRows,
       };
     } catch (err) {
-      console.error(`erro ao atualizar avatar ${err}`);
       throw err;
     }
   }
 
   public async updateCover(id: number, cover: string) {
     try {
-      console.log('DEBUG updateCover: id=', id, 'cover=', cover);
       const result = await db.execute(
         'UPDATE users SET cover = ? WHERE id = ?',
         [cover, id],
       );
-      console.log('DEBUG updateCover result:', result);
 
       return {
         affectedRows: result.affectedRows,
       };
     } catch (err) {
-      console.error(`erro ao atualizar cover ${err}`);
       throw err;
     }
   }

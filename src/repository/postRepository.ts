@@ -13,7 +13,7 @@ export class PostRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar posts relacinados to ${err}`);
+      throw err;
     }
   }
 
@@ -29,7 +29,7 @@ export class PostRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar usúarios ${err}`);
+      throw err;
     }
   }
 
@@ -41,7 +41,7 @@ export class PostRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar post dos usuário logado ${err}`);
+      throw err;
     }
   }
 
@@ -71,7 +71,6 @@ export class PostRepository {
         createAt,
       };
     } catch (err) {
-      console.error(`erro ao criar post com body ${err}`);
       throw err;
     }
   }
@@ -92,7 +91,6 @@ export class PostRepository {
       const count = result?.[0]?.c ?? 0;
       return typeof count === 'string' ? Number(count) : count;
     } catch (err) {
-      console.error(`erro ao daar like no post  ${err}`);
       throw err;
     }
   }
@@ -112,7 +110,6 @@ export class PostRepository {
 
       return result;
     } catch (err) {
-      console.error(`erro ao daar like no post  ${err}`);
       throw err;
     }
   }
@@ -134,7 +131,6 @@ export class PostRepository {
         );
       }
     } catch (err) {
-      console.error(`erro ao deletar like  ${err}`);
       throw err;
     }
   };
@@ -147,8 +143,7 @@ export class PostRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pega comentarios dos posts ${err}`);
-      return [];
+      throw err;
     }
   }
 
@@ -160,8 +155,7 @@ export class PostRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao inserir no posts ${err}`);
-      return [];
+      throw err;
     }
   }
 }

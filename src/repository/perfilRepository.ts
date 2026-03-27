@@ -10,7 +10,7 @@ export class PerfilRepository {
       ]);
       return rows[0];
     } catch (err) {
-      console.error(`erro ao pegar perfil de usúario ${err}`);
+      throw err;
     }
   }
 
@@ -25,7 +25,7 @@ export class PerfilRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar perfil de usúarios ${err}`);
+      throw err;
     }
   }
 
@@ -40,7 +40,7 @@ export class PerfilRepository {
       );
       return rows;
     } catch (err) {
-      console.error(`erro ao pegar perfil de usúarios ${err}`);
+      throw err;
     }
   }
 
@@ -53,7 +53,7 @@ export class PerfilRepository {
 
       return rows[0];
     } catch (err) {
-      console.error(`erro ao pegar usúario por id ${err}`);
+      throw err;
     }
   }
 
@@ -70,7 +70,6 @@ export class PerfilRepository {
         email: email,
       };
     } catch (err) {
-      console.error(`erro ao criar usuário ${err}`);
       throw err;
     }
   }
