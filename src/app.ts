@@ -16,6 +16,11 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Em produção, o Render/Heroku usa proxy; precisamos confiar nele para que cookies \"secure\" sejam aceitos.
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 const MySQLStore = MySQLStoreFactory(session);
 const PgSession = connectPgSimple(session);
 const sessionStore =
