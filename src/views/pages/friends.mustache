@@ -22,8 +22,9 @@
                             <div class="tab-content">
                                 <div class="tab-body" data-item="followers">
 
-                                {{#usersFrom}}
                                     <div class="full-friend-list">
+                                {{#usersFrom}}
+
                                         <div class="friend-icon">
                                             <a href="">
                                                 <div class="friend-icon-avatar">
@@ -34,14 +35,16 @@
                                                 </div>
                                             </a>
                                         </div>
-                                    </div>
                                 {{/usersFrom}}
+
+                                    </div>
         
 
                                 </div>
                                 <div class="tab-body" data-item="following">
-                                {{#usersTo}}
                                     <div class="full-friend-list">
+                                {{#usersTo}}
+
                                         <div class="friend-icon">
                                             <a href="">
                                                 <div class="friend-icon-avatar">
@@ -52,8 +55,9 @@
                                                 </div>
                                             </a>
                                         </div>
-                                    </div>
                                 {{/usersTo}}
+
+                                    </div>
 
                                 </div>
                             </div>
