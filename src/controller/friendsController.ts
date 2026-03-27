@@ -26,6 +26,10 @@ export class FriendsController {
         countFriends: userInfor?.relationsFrom.length,
         usersTo: perfilTo?.users,
         usersFrom: perfilFrom?.users,
+        perfilAvatar:
+          !req.session.user?.avatar || req.session.user.avatar === '0'
+            ? '/media/avatars/avatar.jpg'
+            : req.session.user.avatar,
         relations: {
           to: userInfor?.relationsTo.length,
           from: userInfor?.relationsFrom.length,

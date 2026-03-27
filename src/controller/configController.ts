@@ -16,6 +16,10 @@ export class ConfigController {
 
     return res.render('pages/config', {
       active,
+      perfilAvatar:
+        !req.session.user?.avatar || req.session.user.avatar === '0'
+          ? '/media/avatars/avatar.jpg'
+          : req.session.user.avatar,
       user: {
         name: req.session.user?.name,
         email: req.session.user?.email,
@@ -48,10 +52,11 @@ export class ConfigController {
     const nextWork = (work || '').trim() || currentUser.work || null;
     const nextCity = (city || '').trim() || currentUser.city || null;
 
-    const hasTextChanges = nextName !== currentUser.name || 
-                           nextEmail !== currentUser.email || 
-                           nextWork !== (currentUser.work || null) || 
-                           nextCity !== (currentUser.city || null);
+    const hasTextChanges =
+      nextName !== currentUser.name ||
+      nextEmail !== currentUser.email ||
+      nextWork !== (currentUser.work || null) ||
+      nextCity !== (currentUser.city || null);
 
     if (!hasTextChanges && !hasFiles) {
       req.flash('error', 'Precisa alterar algum campo');

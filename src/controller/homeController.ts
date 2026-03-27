@@ -36,9 +36,10 @@ export default class HomeController {
         avatar: req.session.user?.avatar,
       },
 
-      perfilAvatar: !req.session.user?.avatar || req.session.user.avatar === '0'
-        ? '/media/avatars/avatar.jpg'
-        : req.session.user.avatar,
+      perfilAvatar:
+        !req.session.user?.avatar || req.session.user.avatar === '0'
+          ? '/media/avatars/avatar.jpg'
+          : req.session.user.avatar,
     });
   };
 
@@ -59,6 +60,10 @@ export default class HomeController {
       users,
       countFriends: perfilFrom?.users?.length,
       active,
+      perfilAvatar:
+        !req.session.user?.avatar || req.session.user.avatar === '0'
+          ? '/media/avatars/avatar.jpg'
+          : req.session.user.avatar,
       user: {
         name: req.session.user?.name,
         email: req.session.user?.email,
