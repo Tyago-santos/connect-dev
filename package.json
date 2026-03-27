@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node --env-file=.env dist/app.js",
+    "start": "node dist/app.js",
     "dev": "node --env-file=.env --watch --import tsx ./src/app.ts"
   },
   "dependencies": {
