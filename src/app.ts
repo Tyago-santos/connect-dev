@@ -54,6 +54,11 @@ app.set('views', path.resolve('src/views'));
 
 app.use(router);
 
+import NotFoundController from './controller/notFoundController.js';
+const notFoundController = new NotFoundController();
+
+app.use(notFoundController.index);
+
 app.listen(process.env.PORT, () => {
   console.log('servidor rodando');
 });
