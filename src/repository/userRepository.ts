@@ -61,7 +61,7 @@ export class UserRepository {
         .replace('T', ' ');
 
       const result = await db.insert(
-        'INSERT INTO users (name, email, password, birthdate) VALUES (?, ?, ?, ?)',
+        'INSERT INTO users (name, email, password, birthdate) VALUES (?, ?, ?, ?) RETURNING id',
         [name, email, password, birthdateFormatted],
       );
 

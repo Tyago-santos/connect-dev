@@ -59,7 +59,7 @@ export class PostRepository {
     // postgress
     try {
       const result = await db.insert(
-        'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) ',
+        'INSERT INTO posts (body, id_user, type, created_at) VALUES (?, ?, ?, ?) RETURNING id',
         [body, userId, type, createAt],
       );
 
@@ -129,7 +129,7 @@ export class PostRepository {
         );
       } else {
         await db.insert(
-          'INSERT INTO postlikes (id_post, id_user, created_at) VALUES (?, ?, NOW())',
+          'INSERT INTO postlikes (id_post, id_user, created_at) VALUES (?, ?, NOW()) RETURNING id',
           [idPost, idUser],
         );
       }

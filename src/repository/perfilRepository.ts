@@ -60,7 +60,7 @@ export class PerfilRepository {
   public async createUser(email: string, password: string, name: string) {
     try {
       const result = await db.insert(
-        'INSERT INTO users (name, email, password) VALUES (?, ?, ?) ',
+        'INSERT INTO users (name, email, password) VALUES (?, ?, ?) RETURNING id',
         [name, email, password],
       );
 

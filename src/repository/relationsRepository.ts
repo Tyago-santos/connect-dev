@@ -48,7 +48,7 @@ export class RelationsRepository {
   public async insertFollers(idUser: number, idPerfil: number) {
     try {
       const rows = await db.query<RelationsFrom>(
-        'INSERT INTO user_relations (user_from , user_to) VALUES (?, ? )',
+        'INSERT INTO user_relations (user_from , user_to) VALUES (?, ?) RETURNING id',
         [idUser, idPerfil],
       );
       return rows;
