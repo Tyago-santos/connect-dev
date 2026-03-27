@@ -1,6 +1,6 @@
 import { db, isPostgres, getMysqlPool, getPgPool } from './connection.js';
 
-const migrationsRunKey = 'migrations_run_v1';
+const migrationsRunKey = 'migrations_run_v2';
 
 const serialType = isPostgres ? 'SERIAL' : 'INT AUTO_INCREMENT PRIMARY KEY';
 const textType = isPostgres ? 'TEXT' : 'TEXT';
@@ -23,6 +23,9 @@ export async function runMigrations() {
       )
     `;
     await runSql(migrationsLogTable);
+    if (isPostgres) {
+      await runSql(`ALTER TABLE migrations_log ADD PRIMARY KEY (id)`);
+    }
 
     const existing = await db.query<{ migration_key: string }>(
       'SELECT migration_key FROM migrations_log WHERE migration_key = ?',
@@ -35,7 +38,7 @@ export async function runMigrations() {
 
     const usersTable = `
       CREATE TABLE IF NOT EXISTS users (
-        id ${serialType} PRIMARY KEY,
+        id ${serialType},
         email VARCHAR(100) NOT NULL,
         password VARCHAR(200) NOT NULL,
         name VARCHAR(100) NOT NULL,
@@ -47,10 +50,11 @@ export async function runMigrations() {
       )
     `;
     await runSql(usersTable);
+    await runSql(`ALTER TABLE users ADD PRIMARY KEY (id)`);
 
     const postsTable = `
       CREATE TABLE IF NOT EXISTS posts (
-        id ${serialType} PRIMARY KEY,
+        id ${serialType},
         type VARCHAR(50),
         created_at ${timestampType},
         body ${textType},
@@ -59,10 +63,11 @@ export async function runMigrations() {
       )
     `;
     await runSql(postsTable);
+    await runSql(`ALTER TABLE posts ADD PRIMARY KEY (id)`);
 
     const postlikesTable = `
       CREATE TABLE IF NOT EXISTS postlikes (
-        id ${serialType} PRIMARY KEY,
+        id ${serialType},
         id_user INTEGER NOT NULL,
         created_at ${timestampType},
         id_post INTEGER NOT NULL,
@@ -71,10 +76,11 @@ export async function runMigrations() {
       )
     `;
     await runSql(postlikesTable);
+    await runSql(`ALTER TABLE postlikes ADD PRIMARY KEY (id)`);
 
     const postscommentsTable = `
       CREATE TABLE IF NOT EXISTS postscomments (
-        id ${serialType} PRIMARY KEY,
+        id ${serialType},
         created_at ${timestampType},
         id_user INTEGER NOT NULL,
         id_post INTEGER NOT NULL,
@@ -84,10 +90,11 @@ export async function runMigrations() {
       )
     `;
     await runSql(postscommentsTable);
+    await runSql(`ALTER TABLE postscomments ADD PRIMARY KEY (id)`);
 
     const userRelationsTable = `
       CREATE TABLE IF NOT EXISTS user_relations (
-        id ${serialType} PRIMARY KEY,
+        id ${serialType},
         user_from INTEGER NOT NULL,
         user_to INTEGER NOT NULL,
         FOREIGN KEY (user_from) REFERENCES users(id) ON DELETE CASCADE,
@@ -95,6 +102,7 @@ export async function runMigrations() {
       )
     `;
     await runSql(userRelationsTable);
+    await runSql(`ALTER TABLE user_relations ADD PRIMARY KEY (id)`);
 
     await db.execute(`INSERT INTO migrations_log (migration_key) VALUES (?)`, [migrationsRunKey]);
   } catch (error) {
