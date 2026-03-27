@@ -14,20 +14,34 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
 }
 .fidi-name {
-  color: #27c678;
-  font-size: 16px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
   display: inline-block;
-  margin-right: 5px;
-  margin-bottom: 5px;
+  margin-right: 6px;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
-.fidi-action,
-.fidi-date {
+.fidi-name:hover {
+  color: #27c678;
+}
+.fidi-action {
   color: #8da59a;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 400;
+}
+.fidi-date {
+  color: #6b7c75;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
 }
 
 .feed-item-head-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .feed-item-head-btn {
   margin-right: 5px;

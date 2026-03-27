@@ -14,7 +14,7 @@
                     <div class="config-message">{{message}}</div>
                     {{/message}}
 
-                    <form method="POST" class="config-form"  action="/config_action">
+                    <form method="POST" class="config-form" enctype="multipart/form-data" action="/config_action">
                         <div class="config-section">
                             <div class="config-section-title">Fotos do perfil</div>
                             <div class="config-grid">
@@ -22,26 +22,36 @@
                                     <span>Novo avatar</span>
                                     <div class="config-file-card">
                                         <div class="config-file-preview">
+                                            {{#user.avatar}}
+                                            <img src="{{user.avatar}}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+                                            {{/user.avatar}}
+                                            {{^user.avatar}}
                                             <div class="config-file-icon">IMG</div>
+                                            {{/user.avatar}}
                                         </div>
                                         <div class="config-file-info">
                                             <strong>Escolha uma foto</strong>
                                             <small>Recomendado: 400x400</small>
                                         </div>
-                                        <input type="file" name="avatar" />
+                                        <input type="file" name="avatar" accept="image/*" />
                                     </div>
                                 </label>
                                 <label class="config-field config-file">
                                     <span>Nova capa</span>
                                     <div class="config-file-card">
                                         <div class="config-file-preview config-file-preview--wide">
+                                            {{#user.cover}}
+                                            <img src="{{user.cover}}" alt="Cover" style="width: 100%; height: 100%; object-fit: cover;" />
+                                            {{/user.cover}}
+                                            {{^user.cover}}
                                             <div class="config-file-icon">IMG</div>
+                                            {{/user.cover}}
                                         </div>
                                         <div class="config-file-info">
                                             <strong>Escolha uma capa</strong>
                                             <small>Recomendado: 1280x420</small>
                                         </div>
-                                        <input type="file" name="cover" />
+                                        <input type="file" name="cover" accept="image/*" />
                                     </div>
                                 </label>
                             </div>
@@ -84,7 +94,4 @@
             <div class="modal-content"></div>
         </div>
     </div>
-    <script type="text/javascript" src="/assets/js/script.js"></script>
-    <script type="text/javascript" src="/assets/js/vanillaModal.js"></script>
-
     {{> footer}}

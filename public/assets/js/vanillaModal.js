@@ -420,4 +420,6 @@ var VanillaModal = (function () {
   }
 })();
 
-var modal = new VanillaModal();
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = new VanillaModal();
+});

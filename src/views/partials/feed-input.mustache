@@ -3,13 +3,22 @@
     <div class="box-body">
         <div class="feed-new-editor m-10 row">
             <div class="feed-new-avatar">
-                <img src="/media/avatars/avatar.jpg" />
+                 <img src="{{#user.avatar}}{{user.avatar}} {{/user.avatar}}  {{^user.avatar}} /media/avatars/avatar.jpg{{/user.avatar}}" />
             </div>
             <div class="feed-new-input-placeholder">O que você está pensando, {{user.name}}</div>
             <div class="feed-new-input" contenteditable="true"></div>
+
+
+            {{! <div class="feed-new-photo">
+               <img src="/assets/images/photo.png" />
+               <input type="file" name="photo"  class="feed-new-file" accept="image/*" /> 
+            </div> }}
+            
             <div class="feed-new-send">
                 <img src="/assets/images/send.png" />
             </div>
+
+                
 
             <form class="form_post" method="POST" action="/post_create_action">
                 <input name="body" type="hidden"/> 

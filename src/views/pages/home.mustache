@@ -13,12 +13,13 @@
                         <div class="box-body">
                             <div class="feed-item-head row mt-20 m-width-20">
                                 <div class="feed-item-head-photo">
-                                    <a href="/perfil/{{id_user}}"><img src="/media/avatars/avatar.jpg" /></a>
+                                    <a href="/perfil/{{id_user}}"><img src="{{postAvatar}}" /></a>
                                 </div>
                                 <div class="feed-item-head-info">
-                                    <a href=""><span class="fidi-name">{{name}} </span></a>
-                                    <span class="fidi-action">fez um post</span>
-                                    <br/>
+                                    <div>
+                                        <a href="/perfil/{{id_user}}"><span class="fidi-name">{{user.name}}</span></a>
+                                        <span class="fidi-action">fez um post</span>
+                                    </div>
                                     <span class="fidi-date">{{created_at}}</span>
                                 </div>
                                 <div class="feed-item-head-btn">
@@ -37,7 +38,7 @@
                                     {{#postComment}}
                                     <div class="fic-item row m-height-10 m-width-20">
                                         <div class="fic-item-photo">
-                                            <a href="/perfil/{{id_user}}"><img src="/media/avatars/avatar.jpg" /></a>
+                                            <a href="/perfil/{{id_user}}"><img src="{{postAvatar}}" /></a>
                                         </div>
                                         <div class="fic-item-info">
                                             <a href="/perfil/{{id_user}}">{{user.name}}</a>
@@ -48,7 +49,7 @@
                                 </div>
                                 <div class="fic-answer row m-height-10 m-width-20">
                                     <div class="fic-item-photo">
-                                        <a href=""><img src="/media/avatars/avatar.jpg" /></a>
+                                   <a href="/perfil/{{id_user}}"><img src="{{perfilAvatar}}" /></a>
                                     </div>
                                     <input type="text" class="fic-item-field" placeholder="Escreva um comentário" />
                                 </div>
@@ -80,7 +81,4 @@
             <div class="modal-content"></div>
         </div>
     </div>
-    <script type="text/javascript" src="/assets/js/script.js"></script>
-    <script type="text/javascript" src="/assets/js/vanillaModal.js"></script>
-
     {{> footer}}
