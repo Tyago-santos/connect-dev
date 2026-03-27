@@ -1,6 +1,6 @@
 import { db, isPostgres, getMysqlPool, getPgPool } from './connection.js';
 
-const migrationsRunKey = 'migrations_run_v2';
+const migrationsRunKey = 'migrations_run_v1';
 
 const serialType = isPostgres ? 'SERIAL' : 'INT AUTO_INCREMENT PRIMARY KEY';
 const textType = isPostgres ? 'TEXT' : 'TEXT';
@@ -23,9 +23,6 @@ export async function runMigrations() {
       )
     `;
     await runSql(migrationsLogTable);
-    if (!isPostgres) {
-      await runSql(`ALTER TABLE migrations_log ADD PRIMARY KEY (id)`);
-    }
 
     const existing = await db.query<{ migration_key: string }>(
       'SELECT migration_key FROM migrations_log WHERE migration_key = ?',
@@ -50,9 +47,6 @@ export async function runMigrations() {
       )
     `;
     await runSql(usersTable);
-    if (!isPostgres) {
-      await runSql(`ALTER TABLE users ADD PRIMARY KEY (id)`);
-    }
 
     const postsTable = `
       CREATE TABLE IF NOT EXISTS posts (
@@ -65,9 +59,6 @@ export async function runMigrations() {
       )
     `;
     await runSql(postsTable);
-    if (!isPostgres) {
-      await runSql(`ALTER TABLE posts ADD PRIMARY KEY (id)`);
-    }
 
     const postlikesTable = `
       CREATE TABLE IF NOT EXISTS postlikes (
@@ -80,9 +71,6 @@ export async function runMigrations() {
       )
     `;
     await runSql(postlikesTable);
-    if (!isPostgres) {
-      await runSql(`ALTER TABLE postlikes ADD PRIMARY KEY (id)`);
-    }
 
     const postscommentsTable = `
       CREATE TABLE IF NOT EXISTS postscomments (
@@ -96,9 +84,6 @@ export async function runMigrations() {
       )
     `;
     await runSql(postscommentsTable);
-    if (!isPostgres) {
-      await runSql(`ALTER TABLE postscomments ADD PRIMARY KEY (id)`);
-    }
 
     const userRelationsTable = `
       CREATE TABLE IF NOT EXISTS user_relations (
@@ -110,9 +95,6 @@ export async function runMigrations() {
       )
     `;
     await runSql(userRelationsTable);
-    if (!isPostgres) {
-      await runSql(`ALTER TABLE user_relations ADD PRIMARY KEY (id)`);
-    }
 
     await db.execute(`INSERT INTO migrations_log (migration_key) VALUES (?)`, [migrationsRunKey]);
   } catch (error) {
