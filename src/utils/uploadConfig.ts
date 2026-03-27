@@ -1,21 +1,7 @@
 import multer from 'multer';
-import path from 'path';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    if (file.fieldname === 'avatar') {
-      cb(null, 'public/media/avatars/');
-    } else if (file.fieldname === 'cover') {
-      cb(null, 'public/media/covers/');
-    } else {
-      cb(null, 'public/media/uploads/');
-    }
-  },
-  filename: (req, file, cb) => {
-    const userId = req.session.user?.id || 'temp';
-    const ext = path.extname(file.originalname);
-    cb(null, `${userId}${ext}`);
-  },
-});
+// Store uploads in memory so we can forward the raw buffer to Supabase.
+// Disk storage was leaving `file.buffer` undefined, breaking uploads.
+const storage = multer.memoryStorage();
 
-export const uploadConfig = multer({ storage: storage });
+export const uploadConfig = multer({ storage });
