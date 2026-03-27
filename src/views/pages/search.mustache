@@ -1,0 +1,75 @@
+{{> header}}
+    <section class="container main">
+    {{>asidebar}}
+        <section class="feed mt-10">
+            <div class="search-container">
+                <div class="search-header">
+                    <h1>Buscar Usuários</h1>
+                    <form action="/search" method="GET" class="search-form">
+                        <div class="search-input-wrapper">
+                            <input 
+                                type="text" 
+                                name="s" 
+                                value="{{searchTerm}}" 
+                                placeholder="Buscar por nome ou email..." 
+                                class="search-input"
+                                autocomplete="off"
+                            />
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {{#searchTerm}}
+                <div class="search-results-info">
+                    <span>{{users.length}} resultado(s) para "{{searchTerm}}"</span>
+                </div>
+                {{/searchTerm}}
+
+                <div class="search-results">
+                    {{#users}}
+                    <a href="/perfil/{{id}}" class="search-user-card">
+                        <div class="search-user-avatar">
+                            <img src="{{avatar}}" onerror="this.src='/media/avatars/avatar.jpg'" alt="{{name}}" />
+                        </div>
+                        <div class="search-user-info">
+                            <div class="search-user-name">{{name}}</div>
+                            <div class="search-user-meta">
+                                {{#city}}<span><i class="fas fa-map-marker-alt"></i> {{city}}</span>{{/city}}
+                                {{#work}}<span><i class="fas fa-briefcase"></i> {{work}}</span>{{/work}}
+                            </div>
+                            <div class="search-user-email">{{email}}</div>
+                        </div>
+                        <div class="search-user-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+                    {{/users}}
+                </div>
+
+                {{#users}}
+                {{/users}}
+
+                {{#searchTerm}}
+                    {{^users}}
+                    <div class="search-empty">
+                        <i class="fas fa-user-slash"></i>
+                        <h2>Nenhum usuário encontrado</h2>
+                        <p>Tente buscar por outro nome ou email</p>
+                    </div>
+                    {{/users}}
+                {{/searchTerm}}
+
+                {{^searchTerm}}
+                <div class="search-empty search-start">
+                    <i class="fas fa-search"></i>
+                    <h2>Buscar usuários</h2>
+                    <p>Digite um nome ou email para encontrar pessoas</p>
+                </div>
+                {{/searchTerm}}
+            </div>
+        </section>
+    </section>
+    {{> footer}}

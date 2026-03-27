@@ -5,6 +5,7 @@ const pages = {
   photo: false,
   config: false,
   logout: false,
+  search: false,
 };
 
 export const activePage = (page: keyof typeof pages) => {

@@ -20,5 +20,6 @@ router.use(postRoutes);
 router.use(configRoutes);
 
 router.get('/', homeController.index);
+router.get('/search/', homeController.search);
 
 export default router;

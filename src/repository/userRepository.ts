@@ -35,6 +35,19 @@ export class UserRepository {
     }
   }
 
+  public async getUserByNameOrEmail(search: string) {
+    try {
+      const rows = await db.query<UserRow>(
+        'SELECT id, name, email, birthdate, avatar, cover, city, work FROM users WHERE name LIKE ? OR email LIKE ? LIMIT 20',
+        [`%${search}%`, `%${search}%`],
+      );
+      return rows;
+    } catch (err) {
+      console.error(`erro ao buscar usuários ${err}`);
+      return [];
+    }
+  }
+
   public async createUser(
     email: string,
     password: string,
@@ -65,6 +78,20 @@ export class UserRepository {
       throw err;
     }
   }
+
+  public findByName = async (name: string) => {
+    try {
+      const result = await db.query(
+        'SELECT * FROM users WHERE name LIKE %?% ',
+        [name],
+      );
+
+      return result;
+    } catch (err) {
+      console.error(`erro ao criar usuário ${err}`);
+      throw err;
+    }
+  };
 
   public async updateUserById(
     id: number,

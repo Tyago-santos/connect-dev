@@ -775,6 +775,258 @@ header .head-side {
   justify-content: space-between;
   gap: 16px;
 }
+
+.search-container {
+  width: 100%;
+}
+
+.search-header {
+  margin-bottom: 24px;
+}
+
+.search-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.search-form {
+  width: 100%;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.search-input-wrapper:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(39, 198, 120, 0.15), var(--shadow);
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  font-size: 15px;
+  color: var(--ink);
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+}
+
+.search-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  border: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.search-btn:hover {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+}
+
+.search-results-info {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: rgba(39, 198, 120, 0.1);
+  border-radius: 10px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-user-card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.search-user-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 30px rgba(39, 198, 120, 0.15), var(--shadow);
+}
+
+.search-user-avatar {
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.search-user-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+
+.search-user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-user-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.search-user-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.search-user-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.search-user-meta i {
+  font-size: 11px;
+  color: var(--primary);
+}
+
+.search-user-email {
+  font-size: 13px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-user-arrow {
+  flex-shrink: 0;
+  margin-left: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.search-user-card:hover .search-user-arrow {
+  color: var(--primary);
+  transform: translateX(4px);
+}
+
+.search-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.search-empty i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+  color: var(--primary);
+}
+
+.search-empty h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.search-empty p {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.search-start i {
+  color: var(--primary);
+  opacity: 0.6;
+}
+
+.empty-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: 16px;
+}
+
+.empty-feed i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+  color: var(--primary);
+}
+
+.empty-feed h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.empty-feed p {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .search-header h1 {
+    font-size: 24px;
+  }
+
+  .search-user-card {
+    padding: 12px;
+  }
+
+  .search-user-avatar img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .search-user-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
 .footer-brand {
   display: flex;
   align-items: center;
