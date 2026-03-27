@@ -35,7 +35,7 @@ export async function runMigrations() {
 
     const usersTable = `
       CREATE TABLE IF NOT EXISTS users (
-        id ${serialType},
+        id ${serialType} PRIMARY KEY,
         email VARCHAR(100) NOT NULL,
         password VARCHAR(200) NOT NULL,
         name VARCHAR(100) NOT NULL,
@@ -50,7 +50,7 @@ export async function runMigrations() {
 
     const postsTable = `
       CREATE TABLE IF NOT EXISTS posts (
-        id ${serialType},
+        id ${serialType} PRIMARY KEY,
         type VARCHAR(50),
         created_at ${timestampType},
         body ${textType},
@@ -62,7 +62,7 @@ export async function runMigrations() {
 
     const postlikesTable = `
       CREATE TABLE IF NOT EXISTS postlikes (
-        id ${serialType},
+        id ${serialType} PRIMARY KEY,
         id_user INTEGER NOT NULL,
         created_at ${timestampType},
         id_post INTEGER NOT NULL,
@@ -74,7 +74,7 @@ export async function runMigrations() {
 
     const postscommentsTable = `
       CREATE TABLE IF NOT EXISTS postscomments (
-        id ${serialType},
+        id ${serialType} PRIMARY KEY,
         created_at ${timestampType},
         id_user INTEGER NOT NULL,
         id_post INTEGER NOT NULL,
@@ -87,7 +87,7 @@ export async function runMigrations() {
 
     const userRelationsTable = `
       CREATE TABLE IF NOT EXISTS user_relations (
-        id ${serialType},
+        id ${serialType} PRIMARY KEY,
         user_from INTEGER NOT NULL,
         user_to INTEGER NOT NULL,
         FOREIGN KEY (user_from) REFERENCES users(id) ON DELETE CASCADE,
