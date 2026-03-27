@@ -36,72 +36,81 @@ export class ConfigController {
   };
 
   public configAction = async (req: Request, res: Response) => {
-    const { email, name, work, city } = req.body;
-    const userId = req.session.user?.id;
-    const currentUser = req.session.user;
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    try {
+      const { email, name, work, city } = req.body;
+      const userId = req.session.user?.id;
+      const currentUser = req.session.user;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-    if (!userId || !currentUser) {
-      req.flash('error', 'Sessão expirada. Faça login novamente.');
-      return res.redirect('/login');
-    }
+      if (!userId || !currentUser) {
+        req.flash('error', 'Sessão expirada. Faça login novamente.');
+        return res.redirect('/login');
+      }
 
-    const avatarFile = files?.avatar?.[0];
-    const coverFile = files?.cover?.[0];
-    const hasFiles = avatarFile || coverFile;
+      const avatarFile = files?.avatar?.[0];
+      const coverFile = files?.cover?.[0];
+      const hasFiles = avatarFile || coverFile;
 
-    const nextEmail = (email || '').trim() || currentUser.email;
-    const nextName = (name || '').trim() || currentUser.name;
-    const nextWork = (work || '').trim() || currentUser.work || null;
-    const nextCity = (city || '').trim() || currentUser.city || null;
+      const nextEmail = (email || '').trim() || currentUser.email;
+      const nextName = (name || '').trim() || currentUser.name;
+      const nextWork = (work || '').trim() || currentUser.work || null;
+      const nextCity = (city || '').trim() || currentUser.city || null;
 
-    const hasTextChanges =
-      nextName !== currentUser.name ||
-      nextEmail !== currentUser.email ||
-      nextWork !== (currentUser.work || null) ||
-      nextCity !== (currentUser.city || null);
+      const hasTextChanges =
+        nextName !== currentUser.name ||
+        nextEmail !== currentUser.email ||
+        nextWork !== (currentUser.work || null) ||
+        nextCity !== (currentUser.city || null);
 
-    if (!hasTextChanges && !hasFiles) {
-      req.flash('error', 'Precisa alterar algum campo');
-      return res.redirect('/config');
-    }
-
-    if (hasTextChanges) {
-      const updateUser = await this.service.updateUser(
-        userId,
-        nextEmail,
-        nextName,
-        nextCity,
-        nextWork,
-      );
-
-      if (!updateUser.ok) {
-        req.flash('error', 'E-mail já em uso');
+      if (!hasTextChanges && !hasFiles) {
+        req.flash('error', 'Precisa alterar algum campo');
         return res.redirect('/config');
       }
+
+      if (hasTextChanges) {
+        const updateUser = await this.service.updateUser(
+          userId,
+          nextEmail,
+          nextName,
+          nextCity,
+          nextWork,
+        );
+
+        if (!updateUser.ok) {
+          req.flash('error', 'E-mail já em uso');
+          return res.redirect('/config');
+        }
+      }
+
+      let avatar = currentUser.avatar ?? '';
+      let cover = currentUser.cover ?? '';
+
+      if (avatarFile) {
+        avatar = await this.uploadService.uploadAvatar(userId, avatarFile);
+      }
+
+      if (coverFile) {
+        cover = await this.uploadService.uploadCover(userId, coverFile);
+      }
+
+      const newSession = { ...currentUser };
+      newSession.name = nextName;
+      newSession.email = nextEmail;
+      newSession.work = nextWork ?? undefined;
+      newSession.city = nextCity ?? undefined;
+      if (avatar) newSession.avatar = avatar;
+      if (cover) newSession.cover = cover;
+      req.session.user = newSession;
+
+      req.flash('success', 'Dados atualizados com sucesso');
+      return res.redirect('/config');
+    } catch (error) {
+      console.error('[configAction] Falha ao atualizar perfil', error);
+      req.flash(
+        'error',
+        'Erro ao salvar alterações. Verifique as credenciais do Supabase/bucket e tente novamente.',
+      );
+      return res.redirect('/config');
     }
-
-    let avatar = currentUser.avatar ?? '';
-    let cover = currentUser.cover ?? '';
-
-    if (avatarFile) {
-      avatar = await this.uploadService.uploadAvatar(userId, avatarFile);
-    }
-
-    if (coverFile) {
-      cover = await this.uploadService.uploadCover(userId, coverFile);
-    }
-
-    const newSession = { ...currentUser };
-    newSession.name = nextName;
-    newSession.email = nextEmail;
-    newSession.work = nextWork ?? undefined;
-    newSession.city = nextCity ?? undefined;
-    if (avatar) newSession.avatar = avatar;
-    if (cover) newSession.cover = cover;
-    req.session.user = newSession;
-
-    req.flash('success', 'Dados atualizados com sucesso');
-    return res.redirect('/config');
   };
 }
