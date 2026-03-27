@@ -23,7 +23,7 @@ export async function runMigrations() {
       )
     `;
     await runSql(migrationsLogTable);
-    if (isPostgres) {
+    if (!isPostgres) {
       await runSql(`ALTER TABLE migrations_log ADD PRIMARY KEY (id)`);
     }
 
@@ -50,7 +50,9 @@ export async function runMigrations() {
       )
     `;
     await runSql(usersTable);
-    await runSql(`ALTER TABLE users ADD PRIMARY KEY (id)`);
+    if (!isPostgres) {
+      await runSql(`ALTER TABLE users ADD PRIMARY KEY (id)`);
+    }
 
     const postsTable = `
       CREATE TABLE IF NOT EXISTS posts (
@@ -63,7 +65,9 @@ export async function runMigrations() {
       )
     `;
     await runSql(postsTable);
-    await runSql(`ALTER TABLE posts ADD PRIMARY KEY (id)`);
+    if (!isPostgres) {
+      await runSql(`ALTER TABLE posts ADD PRIMARY KEY (id)`);
+    }
 
     const postlikesTable = `
       CREATE TABLE IF NOT EXISTS postlikes (
@@ -76,7 +80,9 @@ export async function runMigrations() {
       )
     `;
     await runSql(postlikesTable);
-    await runSql(`ALTER TABLE postlikes ADD PRIMARY KEY (id)`);
+    if (!isPostgres) {
+      await runSql(`ALTER TABLE postlikes ADD PRIMARY KEY (id)`);
+    }
 
     const postscommentsTable = `
       CREATE TABLE IF NOT EXISTS postscomments (
@@ -90,7 +96,9 @@ export async function runMigrations() {
       )
     `;
     await runSql(postscommentsTable);
-    await runSql(`ALTER TABLE postscomments ADD PRIMARY KEY (id)`);
+    if (!isPostgres) {
+      await runSql(`ALTER TABLE postscomments ADD PRIMARY KEY (id)`);
+    }
 
     const userRelationsTable = `
       CREATE TABLE IF NOT EXISTS user_relations (
@@ -102,7 +110,9 @@ export async function runMigrations() {
       )
     `;
     await runSql(userRelationsTable);
-    await runSql(`ALTER TABLE user_relations ADD PRIMARY KEY (id)`);
+    if (!isPostgres) {
+      await runSql(`ALTER TABLE user_relations ADD PRIMARY KEY (id)`);
+    }
 
     await db.execute(`INSERT INTO migrations_log (migration_key) VALUES (?)`, [migrationsRunKey]);
   } catch (error) {
