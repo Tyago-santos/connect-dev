@@ -1,6 +1,6 @@
 import { db, isPostgres, getMysqlPool, getPgPool } from './connection.js';
 
-const migrationsRunKey = 'migrations_run_v1';
+const migrationsRunKey = 'migrations_run_v2';
 
 const serialTypePg = 'SERIAL';
 const serialTypeMysql = 'INT AUTO_INCREMENT';
@@ -50,6 +50,25 @@ export async function runMigrations() {
       )
     `;
     await runSql(usersTable);
+
+    // Garantir que a tabela users tenha chave primária em id (caso já existisse sem PK)
+    if (isPostgres) {
+      const ensureUsersPk = `
+        DO $$
+        BEGIN
+          IF NOT EXISTS (
+            SELECT 1
+            FROM information_schema.table_constraints tc
+            WHERE tc.table_name = 'users'
+              AND tc.constraint_type = 'PRIMARY KEY'
+          ) THEN
+            ALTER TABLE users ADD PRIMARY KEY (id);
+          END IF;
+        END;
+        $$;
+      `;
+      await runSql(ensureUsersPk);
+    }
 
     const postsTable = `
       CREATE TABLE IF NOT EXISTS posts (
