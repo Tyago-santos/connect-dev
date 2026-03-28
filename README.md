@@ -1,88 +1,68 @@
 # Connect Dev
 
-![ConnectDev](public/assets/images/conectdev_logo.svg)
+![ConnectDev](public/assets/images/connect_dev.svg)
 
-Rede social simples para estudos, com autenticação, páginas de perfil e feed, usando Node.js + Express + Mustache.
+Rede social de estudos construída em Node.js/Express com views Mustache. Possui autenticação, feed, perfil com avatar/capa, seguir/seguir, upload de mídia no Supabase e suporte a MySQL ou Postgres.
 
-## Tecnologias
+## Principais funcionalidades
+- Cadastro/Login com sessão (`express-session`) e hash de senha (`bcryptjs`).
+- Perfil com edição de dados, avatar e capa enviados para Supabase Storage.
+- Feed de posts, curtidas e comentários (render Mustache).
+- Seguidores/seguindo e pesquisa de usuários.
+- Flash messages para feedback rápido.
 
-- Node.js: runtime do servidor.
-- TypeScript: tipagem e organização do código.
-- Express 5: framework HTTP e rotas.
-- Mustache: renderização das views.
-- MySQL2: acesso ao banco com pool de conexões.
-- Zod: validação de dados (login/registro).
-- Helmet: segurança e CSP.
-- express-session + connect-flash: sessão e mensagens de erro.
-- bcryptjs: hash de senha.
+## Arquitetura
+- **Camadas**: Controller → Service → Repository → DB. Controllers lidam com HTTP/views, Services concentram regras e integrações (ex.: Supabase), Repositories fazem I/O no banco.
+- **Views server-side**: Mustache + partials.
+- **Sessão/estado**: `express-session` com store MySQL ou Postgres (`connect-pg-simple`/`express-mysql-session`), cookies `sameSite=lax`.
+- **Segurança**: Helmet habilitado com `crossOriginResourcePolicy: 'cross-origin'` para permitir imagens externas (Supabase). Validação com Zod.
+- **Storage**: Supabase Storage (bucket `uploads`) para `avatars/` e `covers/`.
 
-## Como rodar
+## Mapa de pastas (resumo)
+- `src/app.ts`: bootstrap do servidor, middlewares, sessão, Helmet, views e rotas.
+- `src/routes/`: arquivos de rota por domínio (`config`, `login`, etc.).
+- `src/controller/`: controllers que recebem requests e montam respostas Mustache.
+- `src/service/`: regras de negócio e integrações (ex.: `uploadService` → Supabase).
+- `src/repository/`: acesso a dados (`userRepository` para CRUD de usuários).
+- `src/database/`: config de conexão e migrations runner.
+- `src/schema/`: validações Zod (auth).
+- `src/utils/`: utilidades como `activePage` e `uploadConfig` (multer).
+- `src/views/pages/`: páginas Mustache.
+- `src/views/partials/`: componentes reutilizáveis (header, sidebar, feed, etc.).
+- `public/`: estáticos (CSS, JS, imagens, placeholders locais).
 
-1. Instale as dependências:
-
-```
-npm install
-```
-
-2. Configure a porta em `.env` (exemplo):
-
+## Requisitos de ambiente
+Use `.env.example` como base. Campos principais:
 ```
 PORT=3000
+DB_DIALECT=mysql            # ou postgres
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASS=1234
+DB_NAME=connect_dev
+# Postgres em produção: DATABASE_URL e PGSSL=true
+
+SUPABASE_URL=https://<project>.supabase.co
+SUPABASE_ANON_KEY=<anon-jwt>
+SUPABASE_SERVICE_KEY=<service-role-jwt>
 ```
 
-3. Configure o banco via `.env` (use `.env.example` como base):
+## Como rodar
+1) Instalar dependências  
+`npm install`
 
-- `DB_DIALECT=mysql` (local) ou `postgres` (produção)
-- `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`, `DB_PORT` (MySQL local)
-- `DATABASE_URL` + `PGSSL=true` (Postgres na Render)
+2) Rodar migrations (automático na subida: `runMigrations` em `app.ts`).
 
-Os dados de conexão estão em `src/database/connection.ts` e mudam por ambiente.
+3) Dev com reload  
+`npm run dev`
 
-4. Rodar em modo dev:
+4) Build  
+`npm run build`
 
-```
-npm run dev
-```
+5) Produção  
+`npm start`
 
-5. Build de produção:
-
-```
-npm run build
-```
-
-6. Rodar produção:
-
-```
-npm start
-```
-
-## Estrutura do projeto
-
-- `src/app.ts` inicializa o servidor, middlewares, view engine e rotas.
-- `src/routes` define as rotas por módulo.
-- `src/controller` controla as requisições e renderiza views.
-- `src/service` concentra regras de negócio e integrações.
-- `src/repository` acessa o banco de dados.
-- `src/database` configuração do pool MySQL/Postgres.
-- `src/schema` validação com Zod.
-- `src/utils` utilitários (ex.: página ativa).
-- `src/views` templates Mustache.
-- `public` arquivos estáticos (CSS, JS, imagens).
-
-## Views
-
-- `src/views/pages` páginas principais (home, perfil, friends, etc.).
-- `src/views/partials` componentes reutilizáveis (header, aside, footer, etc.).
-
-## Rotas principais
-
-- `/` Home
-- `/perfil` Perfil
-- `/login` Login
-- `/register` Registro
-
-## Imagem do projeto
-
-O logo simples do projeto fica em:
-
-- `public/assets/images/connect_dev.svg`
+## Observações sobre mídia
+- Upload de avatar/capa vai para Supabase (`uploads/avatars` e `uploads/covers`), com URLs públicas salvas no banco.
+- Helmet já permite carregar essas imagens externas; nada extra é necessário no frontend.

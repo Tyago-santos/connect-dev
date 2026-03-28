@@ -51,9 +51,15 @@ export class PerfilService {
       const { password: _, ...userWithoutPassword } = user;
       void _;
 
+      const avatar =
+        user.avatar && user.avatar !== '0'
+          ? user.avatar
+          : '/media/avatars/avatar.jpg';
+
       return {
         user: {
           ...userWithoutPassword,
+          avatar,
           birthdate: birthDate.toISOString(),
           birthdateFormatted: formatDateToBrazil(birthDate),
           age,

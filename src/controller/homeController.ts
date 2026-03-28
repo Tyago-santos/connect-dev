@@ -23,6 +23,17 @@ export default class HomeController {
     const posts = await this.servicePost.postsAll(Number(id));
 
     const active = activePage('home');
+
+    const avatar =
+      req.session.user?.avatar && req.session.user.avatar !== '0'
+        ? req.session.user.avatar
+        : '/media/avatars/avatar.jpg';
+
+    const cover =
+      req.session.user?.cover && req.session.user.cover !== '0'
+        ? req.session.user.cover
+        : '/media/covers/cover_placeholder.jpg';
+
     res.render('pages/home', {
       countFriends: perfilFrom?.users?.length,
       active,
@@ -32,7 +43,8 @@ export default class HomeController {
         name: req.session.user?.name,
         email: req.session.user?.email,
         id: req.session.user?.id,
-        avatar: req.session.user?.avatar,
+        avatar,
+        cover,
       },
 
       perfilAvatar:

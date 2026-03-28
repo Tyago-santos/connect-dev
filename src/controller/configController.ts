@@ -17,6 +17,16 @@ export class ConfigController {
   public config = async (req: Request, res: Response) => {
     const active = activePage('config');
 
+    const avatar =
+      req.session.user?.avatar && req.session.user.avatar !== '0'
+        ? req.session.user.avatar
+        : '/media/avatars/avatar.jpg';
+
+    const cover =
+      req.session.user?.cover && req.session.user.cover !== '0'
+        ? req.session.user.cover
+        : '/media/covers/cover_placeholder.jpg';
+
     return res.render('pages/config', {
       active,
       perfilAvatar:
@@ -29,8 +39,8 @@ export class ConfigController {
         id: req.session.user?.id,
         city: req.session.user?.city,
         work: req.session.user?.work,
-        avatar: req.session.user?.avatar,
-        cover: req.session.user?.cover,
+        avatar,
+        cover,
       },
     });
   };
