@@ -28,13 +28,30 @@ app.use(
           'https://*.supabase.co',
           'https://*.supabase.in',
         ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdnjs.cloudflare.com', // Font Awesome CSS
+          'https://fonts.googleapis.com', // Google Fonts CSS
+        ],
+        styleSrcElem: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdnjs.cloudflare.com',
+          'https://fonts.googleapis.com',
+        ],
+        fontSrc: [
+          "'self'",
+          'data:',
+          'https://cdnjs.cloudflare.com', // Font Awesome fonts
+          'https://fonts.gstatic.com',    // Google Fonts
+        ],
         connectSrc: [
           "'self'",
           'https://*.supabase.co',
           'https://*.supabase.in',
         ],
         scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
       },
     },
   }),
