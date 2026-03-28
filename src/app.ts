@@ -12,7 +12,12 @@ import { dbConfig, dbDialect, getPgPool } from './database/connection.js';
 
 export const app = express();
 
-app.use(helmet());
+// Permit assets (avatars/covers) served from Supabase/public URLs.
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
