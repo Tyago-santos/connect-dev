@@ -20,7 +20,7 @@ export class PerfilRepository {
     const idValue = id.map((i) => i.user_to);
     try {
       const rows = await db.query<UserRow>(
-        `SELECT name FROM users WHERE id IN (${sql} )`,
+        `SELECT id, name, avatar FROM users WHERE id IN (${sql} )`,
         [...idValue],
       );
       return rows;
@@ -35,7 +35,7 @@ export class PerfilRepository {
     const idValue = id.map((i) => i.user_from);
     try {
       const rows = await db.query<UserRow>(
-        `SELECT name FROM users WHERE id IN (${sql} )`,
+        `SELECT id, name, avatar FROM users WHERE id IN (${sql} )`,
         [...idValue],
       );
       return rows;
@@ -74,5 +74,4 @@ export class PerfilRepository {
     }
   }
 }
-
 

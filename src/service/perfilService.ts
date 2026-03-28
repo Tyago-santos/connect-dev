@@ -82,9 +82,16 @@ export class PerfilService {
     const followers = await this.repositoryRelations.relationsFrom(id);
     if (followers) {
       const usersFrom = await this.repositoryPerfil.getAllPerfilFrom(followers);
+      const users = usersFrom?.map((u) => ({
+        ...u,
+        avatar:
+          u.avatar && u.avatar !== '0'
+            ? u.avatar
+            : '/media/avatars/avatar.jpg',
+      }));
 
       return {
-        users: usersFrom,
+        users,
       };
     }
   };
@@ -100,9 +107,16 @@ export class PerfilService {
     const followers = await this.repositoryRelations.relationsTo(id);
     if (followers) {
       const usersTo = await this.repositoryPerfil.getAllPerfilTo(followers);
+      const users = usersTo?.map((u) => ({
+        ...u,
+        avatar:
+          u.avatar && u.avatar !== '0'
+            ? u.avatar
+            : '/media/avatars/avatar.jpg',
+      }));
 
       return {
-        users: usersTo,
+        users,
       };
     }
   };

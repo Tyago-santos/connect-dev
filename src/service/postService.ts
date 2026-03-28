@@ -120,9 +120,17 @@ export class PostService {
               ? await this.userRepository.getUserById(Number(post.id_user))
               : null;
 
-          const postAvatar = user?.avatar
-            ? user.avatar
-            : '/media/avatars/avatar.jpg';
+          const postAvatar =
+            user?.avatar && user.avatar !== '0'
+              ? user.avatar
+              : '/media/avatars/avatar.jpg';
+
+          const userSafe = user
+            ? {
+                ...user,
+                avatar: postAvatar,
+              }
+            : undefined;
 
           return {
             ...post,
@@ -131,7 +139,7 @@ export class PostService {
             created_at: `${day}/${month}/${year}`,
             postComment: postCommentWithUser,
             countComment: postComment?.length ?? 0,
-            user: user ?? undefined,
+            user: userSafe,
             postAvatar,
           };
         }),
