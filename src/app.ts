@@ -15,7 +15,28 @@ export const app = express();
 // Permit assets (avatars/covers) served from Supabase/public URLs.
 app.use(
   helmet({
+    // Permite carregar imagens hospedadas no Supabase (domínios *.supabase.co/.in).
     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: [
+          "'self'",
+          'data:',
+          'https://*.supabase.co',
+          'https://*.supabase.in',
+        ],
+        connectSrc: [
+          "'self'",
+          'https://*.supabase.co',
+          'https://*.supabase.in',
+        ],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
   }),
 );
 app.use(express.json());
