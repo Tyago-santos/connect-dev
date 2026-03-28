@@ -58,6 +58,22 @@ app.use(flash());
 
 app.use(express.static(path.resolve('public')));
 
+// Disponibiliza avatar/cover com fallback para todas as views (header, feed, etc.)
+app.use((req, res, next) => {
+  const avatar =
+    req.session.user?.avatar && req.session.user.avatar !== '0'
+      ? req.session.user.avatar
+      : '/media/avatars/avatar.jpg';
+  const cover =
+    req.session.user?.cover && req.session.user.cover !== '0'
+      ? req.session.user.cover
+      : '/media/covers/cover_placeholder.jpg';
+
+  res.locals.perfilAvatar = avatar;
+  res.locals.perfilCover = cover;
+  next();
+});
+
 app.engine('mustache', mustacheExpress(path.resolve('src/views/partials')));
 app.set('view engine', 'mustache');
 app.set('views', path.resolve('src/views'));
